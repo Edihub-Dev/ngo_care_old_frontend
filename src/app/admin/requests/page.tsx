@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   DocumentTextIcon, 
   MagnifyingGlassIcon,
@@ -9,41 +10,105 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline';
 import AdminSidebar from '@/components/admin/AdminSidebar';
+import { AuthManager } from '@/lib/auth';
+import { apiClient } from '@/lib/api';
+import { cn } from "../../../lib/utils";
+
+interface ServiceRequest {
+  _id: string;
+  user: {
+    _id: string;
+    name: string;
+    mobile: string;
+  };
+  serviceType: string;
+  description: string;
+  urgency: string;
+  status: string;
+  createdAt: string;
+}
 
 export default function AdminRequests() {
-  const [requests, setRequests] = useState<any[]>([]);
+  const router = useRouter();
+  const authManager = AuthManager.getInstance();
+  
+  const [requests, setRequests] = useState<ServiceRequest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
+    authManager.setRouter(router);
+    
+    // Check admin authentication
+    const authState = authManager.requireAdmin();
+    if (!authState.isAuthenticated) {
+      return; // Will redirect
+    }
+    
     fetchRequests();
-  }, []);
+  }, [router]);
 
   const fetchRequests = async () => {
     try {
-      const response = await fetch('/api/admin/requests');
-      const data = await response.json();
-      if (data.success) {
-        setRequests(data.requests);
+      setLoading(true);
+      setError(null);
+      
+      const response = await apiClient.get<ServiceRequest[]>('/api/admin/requests');
+      
+      if (response.success && response.data) {
+        setRequests(response.data);
+      } else {
+        throw new Error(response.error?.message || 'Failed to fetch requests');
       }
     } catch (error) {
       console.error('Failed to fetch requests:', error);
+      setError(error instanceof Error ? error.message : 'Failed to fetch requests');
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredRequests = requests.filter(request => {
-    const matchesSearch = 
-      request.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      request.serviceType?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      request.description?.toLowerCase().includes(searchTerm.toLowerCase());
+  // Memoized filtered requests for performance
+  const filteredRequests = useMemo(() => {
+    return requests.filter(request => {
+      const matchesSearch = 
+        request.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        request.serviceType?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        request.description?.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesStatus = statusFilter === 'all' || request.status === statusFilter;
+      
+      return matchesSearch && matchesStatus;
+    });
+  }, [requests, searchTerm, statusFilter]);
+
+  const handleAction = async (requestId: string, action: string) => {
+    if (actionLoading) return;
     
-    const matchesStatus = statusFilter === 'all' || request.status === statusFilter;
-    
-    return matchesSearch && matchesStatus;
-  });
+    try {
+      setActionLoading(requestId);
+      
+      const response = await apiClient.put(`/api/admin/requests/${requestId}`, { 
+        status: action 
+      });
+      
+      if (response.success) {
+        // Refresh requests list
+        await fetchRequests();
+      } else {
+        throw new Error(response.error?.message || `Failed to ${action} request`);
+      }
+    } catch (error) {
+      console.error(`Failed to ${action} request:`, error);
+      const errorMessage = error instanceof Error ? error.message : `Failed to ${action} request`;
+      alert(errorMessage);
+    } finally {
+      setActionLoading(null);
+    }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -66,23 +131,41 @@ export default function AdminRequests() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className={cn('min-h-screen', 'bg-gray-50', 'flex', 'items-center', 'justify-center')}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading service requests...</p>
+          <div className={cn('animate-spin', 'rounded-full', 'h-12', 'w-12', 'border-b-2', 'border-blue-600', 'mx-auto')}></div>
+          <p className={cn('mt-4', 'text-gray-600')}>Loading service requests...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={cn('min-h-screen', 'bg-gray-50', 'flex', 'items-center', 'justify-center')}>
+        <div className="text-center max-w-md mx-auto p-6">
+          <DocumentTextIcon className={cn('h-12', 'w-12', 'text-red-600', 'mx-auto', 'mb-4')} />
+          <h2 className={cn('text-xl', 'font-semibold', 'text-gray-900', 'mb-2')}>Error Loading Requests</h2>
+          <p className={cn('text-gray-600', 'mb-6')}>{error}</p>
+          <button
+            onClick={fetchRequests}
+            className={cn('px-4', 'py-2', 'bg-blue-600', 'text-white', 'rounded-lg', 'hover:bg-blue-700')}
+          >
+            Try Again
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className={cn('min-h-screen', 'bg-gray-50', 'flex')}>
       <AdminSidebar />
       
       {/* Main Content */}
-      <div className="flex-1 p-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Service Requests</h1>
+      <div className={cn('flex-1', 'p-8')}>
+        <div className={cn('mb-8')}>
+          <h1 className={cn('text-2xl', 'font-bold', 'text-gray-900')}>Service Requests</h1>
           <p className="text-gray-600">View and manage all service requests</p>
         </div>
 
@@ -95,7 +178,7 @@ export default function AdminRequests() {
               </div>
               <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className={cn('block', 'w-full', 'pl-10', 'pr-3', 'py-2', 'border', 'border-gray-300', 'rounded-md', 'leading-5', 'bg-white', 'placeholder-gray-500', 'focus:outline-none', 'focus:placeholder-gray-400', 'focus:ring-1', 'focus:ring-blue-500', 'focus:border-blue-500', 'sm:text-sm')}
                 placeholder="Search requests..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -105,7 +188,7 @@ export default function AdminRequests() {
           
           <div className="sm:w-48">
             <select
-              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+              className={cn('block', 'w-full', 'pl-3', 'pr-10', 'py-2', 'text-base', 'border-gray-300', 'focus:outline-none', 'focus:ring-blue-500', 'focus:border-blue-500', 'sm:text-sm', 'rounded-md')}
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -119,9 +202,9 @@ export default function AdminRequests() {
         </div>
 
         {/* Requests Table */}
-        <div className="bg-white shadow overflow-hidden sm:rounded-md">
-          <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
+        <div className={cn('bg-white', 'shadow', 'overflow-hidden', 'sm:rounded-md')}>
+          <div className={cn('px-4', 'py-5', 'sm:px-6')}>
+            <h3 className={cn('text-lg', 'leading-6', 'font-medium', 'text-gray-900')}>
               All Requests ({filteredRequests.length})
             </h3>
           </div>
@@ -195,18 +278,29 @@ export default function AdminRequests() {
                       {new Date(request.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center space-x-2">
-                        <button className="text-blue-600 hover:text-blue-900">
-                          <EyeIcon className="h-5 w-5" />
+                      <div className={cn('flex', 'items-center', 'space-x-2')}>
+                        <button 
+                          className={cn('p-2', 'text-blue-600', 'hover:text-blue-900', 'disabled:opacity-50')}
+                          disabled={actionLoading === request._id}
+                        >
+                          <EyeIcon className={cn('h-5', 'w-5')} />
                         </button>
                         {request.status === 'pending' && (
-                          <button className="text-green-600 hover:text-green-900">
-                            <CheckIcon className="h-5 w-5" />
+                          <button 
+                            className={cn('p-2', 'text-green-600', 'hover:text-green-900', 'disabled:opacity-50')}
+                            disabled={actionLoading === request._id}
+                            onClick={() => handleAction(request._id, 'in_progress')}
+                          >
+                            <CheckIcon className={cn('h-5', 'w-5')} />
                           </button>
                         )}
                         {request.status !== 'completed' && request.status !== 'cancelled' && (
-                          <button className="text-red-600 hover:text-red-900">
-                            <XMarkIcon className="h-5 w-5" />
+                          <button 
+                            className={cn('p-2', 'text-red-600', 'hover:text-red-900', 'disabled:opacity-50')}
+                            disabled={actionLoading === request._id}
+                            onClick={() => handleAction(request._id, 'cancelled')}
+                          >
+                            <XMarkIcon className={cn('h-5', 'w-5')} />
                           </button>
                         )}
                       </div>
@@ -218,8 +312,8 @@ export default function AdminRequests() {
           </div>
           
           {filteredRequests.length === 0 && (
-            <div className="text-center py-12">
-              <DocumentTextIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <div className={cn('text-center', 'py-12')}>
+              <DocumentTextIcon className={cn('h-12', 'w-12', 'text-gray-400', 'mx-auto', 'mb-4')} />
               <p className="text-gray-500">No service requests found</p>
             </div>
           )}

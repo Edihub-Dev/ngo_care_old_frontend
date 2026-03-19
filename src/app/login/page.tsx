@@ -3,63 +3,73 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import { AuthManager } from '@/lib/auth';
+import { authApi } from '@/lib/api';
+import { Validator, validationRules } from '@/lib/validation';
 
 export default function Login() {
+  const router = useRouter();
+  const authManager = AuthManager.getInstance();
+  
   const [mobile, setMobile] = useState('');
   const [otp, setOtp] = useState('');
   const [showOtp, setShowOtp] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Check if user is already logged in
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    authManager.setRouter(router);
     
-    if (token && user) {
-      const userData = JSON.parse(user);
-      if (userData.name) {
+    // Check if user is already logged in
+    const authState = authManager.getAuthState();
+    
+    if (authState.isAuthenticated) {
+      if (authManager.isUserRegistered()) {
         // User is already registered, redirect to dashboard
-        window.location.href = '/dashboard';
+        router.push('/dashboard');
       } else {
         // User needs to complete registration
-        window.location.href = '/register';
+        router.push('/register');
       }
     }
-  }, []);
+  }, [router, authManager]);
 
   const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate mobile number
+    const mobileError = Validator.validateField(mobile, validationRules.mobile, 'Mobile Number');
+    if (mobileError) {
+      setErrors({ mobile: mobileError });
+      return;
+    }
+    
     setLoading(true);
+    setErrors({});
 
     try {
-      const response = await fetch('/api/auth/send-otp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ mobile }),
-      });
+      const response = await authApi.sendOTP(mobile);
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response.success) {
         setShowOtp(true);
-        setIsNewUser(data.isNewUser);
+        setIsNewUser(response.data && typeof response.data === 'object' && 'isNewUser' in response.data ? Boolean((response.data as any).isNewUser) : false);
         
         // For development, show OTP
-        if (process.env.NODE_ENV === 'development' && data.devOTP) {
-          alert(`Development OTP: ${data.devOTP}`);
+        if (process.env.NODE_ENV === 'development' && response.data && typeof response.data === 'object' && 'devOTP' in response.data) {
+          alert(`Development OTP: ${(response.data as any).devOTP}`);
         }
       } else {
-        alert(data.message || 'Failed to send OTP');
+        throw new Error(response.error?.message || 'Failed to send OTP');
       }
     } catch (error) {
       console.error('Send OTP error:', error);
-      alert('Failed to send OTP. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to send OTP. Please try again.';
+      setErrors({ mobile: errorMessage });
     } finally {
       setLoading(false);
     }
@@ -67,38 +77,45 @@ export default function Login() {
 
   const handleVerifyOTP = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate OTP
+    const otpError = Validator.validateField(otp, validationRules.otp, 'OTP');
+    if (otpError) {
+      setErrors({ otp: otpError });
+      return;
+    }
+    
     setLoading(true);
+    setErrors({});
 
     try {
-      const response = await fetch('/api/auth/verify-otp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ mobile, otp }),
-      });
+      const response = await authApi.verifyOTP(mobile, otp);
 
-      const data = await response.json();
-
-      if (data.success) {
-        // Store token and redirect
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+      if (response.success) {
+        // Store token and user data securely
+        if (response.data && typeof response.data === 'object' && response.data !== null && 'token' in response.data) {
+          authManager.setToken((response.data as any).token);
+        }
+        
+        if (response.data && typeof response.data === 'object' && response.data !== null && 'user' in response.data) {
+          authManager.setUser((response.data as any).user);
+        }
         
         // Check if user is already registered (has name)
-        if (data.user.name) {
+        if (response.data && typeof response.data === 'object' && response.data !== null && 'user' in response.data && (response.data as any).user?.name) {
           // User is already registered, go to dashboard
-          window.location.href = '/dashboard';
+          router.push('/dashboard');
         } else {
           // New user needs to complete registration
-          window.location.href = '/register';
+          router.push('/register');
         }
       } else {
-        alert(data.message || 'Invalid OTP');
+        throw new Error(response.error?.message || 'Invalid OTP');
       }
     } catch (error) {
       console.error('Verify OTP error:', error);
-      alert('Failed to verify OTP. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to verify OTP. Please try again.';
+      setErrors({ otp: errorMessage });
     } finally {
       setLoading(false);
     }
@@ -144,9 +161,20 @@ export default function Login() {
                   type="tel"
                   placeholder="Enter your 10-digit mobile number"
                   value={mobile}
-                  onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                  onChange={(e) => {
+                    setMobile(e.target.value.replace(/\D/g, '').slice(0, 10));
+                    // Clear error when user starts typing
+                    if (errors.mobile) {
+                      setErrors(prev => {
+                        const newErrors = { ...prev };
+                        delete newErrors.mobile;
+                        return newErrors;
+                      });
+                    }
+                  }}
                   maxLength={10}
                   required
+                  error={errors.mobile}
                   className="input-large text-large"
                 />
                 <p className="text-sm text-gray-500 mt-2">
@@ -158,7 +186,7 @@ export default function Login() {
                 type="submit"
                 size="lg"
                 className="w-full btn-large"
-                disabled={loading || mobile.length !== 10}
+                disabled={loading || mobile.length !== 10 || !!errors.mobile}
               >
                 {loading ? 'Sending...' : 'Send OTP'}
               </Button>
@@ -171,9 +199,20 @@ export default function Login() {
                   type="text"
                   placeholder="Enter 6-digit OTP"
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  onChange={(e) => {
+                    setOtp(e.target.value.replace(/\D/g, '').slice(0, 6));
+                    // Clear error when user starts typing
+                    if (errors.otp) {
+                      setErrors(prev => {
+                        const newErrors = { ...prev };
+                        delete newErrors.otp;
+                        return newErrors;
+                      });
+                    }
+                  }}
                   maxLength={6}
                   required
+                  error={errors.otp}
                   className="input-large text-large text-center"
                 />
                 <p className="text-sm text-gray-500 mt-2">
@@ -185,7 +224,7 @@ export default function Login() {
                 type="submit"
                 size="lg"
                 className="w-full btn-large"
-                disabled={loading || otp.length !== 6}
+                disabled={loading || otp.length !== 6 || !!errors.otp}
               >
                 {loading ? 'Verifying...' : 'Verify & Continue'}
               </Button>

@@ -3,13 +3,36 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon, UserIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/24/outline';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { cn } from "../../lib/utils";
+import { AuthManager } from '@/lib/auth';
+import { apiClient } from '@/lib/api';
+import { validateRegistrationForm, Validator } from '@/lib/validation';
+
+interface FormData {
+  name: string;
+  age: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    pincode: string;
+  };
+  emergencyContact: {
+    name: string;
+    mobile: string;
+    relationship: string;
+  };
+}
 
 export default function Register() {
-  const [formData, setFormData] = useState({
+  const router = useRouter();
+  const authManager = AuthManager.getInstance();
+  
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     age: '',
     address: {
@@ -24,106 +47,113 @@ export default function Register() {
       relationship: ''
     }
   });
+  
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [authState, setAuthState] = useState(() => authManager.getAuthState());
 
   useEffect(() => {
-    // Check if user is already fully registered
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    authManager.setRouter(router);
     
-    if (token && user) {
-      const userData = JSON.parse(user);
-      if (userData.name) {
-        // User is already registered, redirect to dashboard
-        window.location.href = '/dashboard';
-        return;
-      }
+    // Check if user is already fully registered
+    const currentAuthState = authManager.getAuthState();
+    setAuthState(currentAuthState);
+    
+    if (currentAuthState.isAuthenticated && authManager.isUserRegistered()) {
+      // User is already registered, redirect to dashboard
+      router.push('/dashboard');
+      return;
     }
     
-    // Allow access to register page if not logged in or not registered
-  }, []);
+    // If not authenticated, redirect to login
+    if (!currentAuthState.isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+  }, [router, authManager]);
 
-  // Check if user is logged in
-  const token = localStorage.getItem('token');
-  const userData = localStorage.getItem('user');
-  const isLoggedIn = !!(token && userData);
+  const isLoggedIn = authState.isAuthenticated;
 
   const handleInputChange = (field: string, value: string) => {
+    // Sanitize input
+    const sanitizedValue = Validator.sanitize(value);
+    
+    // Clear error for this field when user starts typing
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+    
     if (field.includes('.')) {
       const [parent, child] = field.split('.');
       setFormData(prev => ({
         ...prev,
         [parent]: {
           ...(prev[parent as keyof typeof prev] as any),
-          [child]: value
+          [child]: sanitizedValue
         }
       }));
     } else {
       setFormData(prev => ({
         ...prev,
-        [field]: value
+        [field]: sanitizedValue
       }));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    const validation = validateRegistrationForm(formData);
+    if (!validation.isValid) {
+      setErrors(validation.errors);
+      return;
+    }
+    
     setLoading(true);
+    setErrors({});
 
     try {
-      const token = localStorage.getItem('token');
-      const userData = localStorage.getItem('user');
+      const currentAuthState = authManager.getAuthState();
       
-      // If not logged in, redirect to login first
-      if (!token || !userData) {
-        alert('Please login first to complete registration');
-        window.location.href = '/login';
-        return;
+      // Double-check authentication
+      if (!currentAuthState.isAuthenticated) {
+        throw new Error('Please login first to complete registration');
       }
 
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          mobile: JSON.parse(userData).mobile,
-          otp: 'verified', // This would be handled differently in production
-          ...formData
-        }),
+      const response = await apiClient.post('/api/auth/register', {
+        mobile: currentAuthState.user?.mobile,
+        ...formData
       });
 
-      const data = await response.json();
-
-      if (data.success) {
-        localStorage.setItem('user', JSON.stringify(data.user));
-        alert('Registration successful! Redirecting to login...');
-        window.location.href = '/login';
+      if (response.success) {
+        // Update user data in auth manager
+        if (response.data && typeof response.data === 'object' && response.data !== null && 'user' in response.data) {
+          authManager.setUser(response.data.user as any);
+        }
+        
+        alert('Registration successful! Redirecting to dashboard...');
+        router.push('/dashboard');
       } else {
-        alert(data.message || 'Registration failed');
+        throw new Error(response.error?.message || 'Registration failed');
       }
     } catch (error) {
       console.error('Registration error:', error);
-      alert('Registration failed. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Registration failed. Please try again.';
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
+  // Check if form is valid for submit button
   const isFormValid = () => {
-    return (
-      formData.name &&
-      formData.age &&
-      parseInt(formData.age) >= 50 &&
-      formData.address.street &&
-      formData.address.city &&
-      formData.address.state &&
-      formData.address.pincode.length === 6 &&
-      formData.emergencyContact.name &&
-      formData.emergencyContact.mobile.length === 10 &&
-      formData.emergencyContact.relationship
-    );
+    const validation = validateRegistrationForm(formData);
+    return validation.isValid && Object.keys(errors).length === 0;
   };
 
   return (
@@ -178,6 +208,7 @@ export default function Register() {
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
                   required
+                  error={errors.name}
                   className={cn('input-large', 'text-large')}
                 />
                 <Input
@@ -189,6 +220,7 @@ export default function Register() {
                   min="50"
                   max="120"
                   required
+                  error={errors.age}
                   className={cn('input-large', 'text-large')}
                 />
               </div>
@@ -208,6 +240,7 @@ export default function Register() {
                   value={formData.address.street}
                   onChange={(e) => handleInputChange('address.street', e.target.value)}
                   required
+                  error={errors['address.street']}
                   className={cn('input-large', 'text-large')}
                 />
                 <div className={cn('grid', 'grid-cols-1', 'md:grid-cols-3', 'gap-4')}>
@@ -218,6 +251,7 @@ export default function Register() {
                     value={formData.address.city}
                     onChange={(e) => handleInputChange('address.city', e.target.value)}
                     required
+                    error={errors['address.city']}
                     className={cn('input-large', 'text-large')}
                   />
                   <Input
@@ -227,6 +261,7 @@ export default function Register() {
                     value={formData.address.state}
                     onChange={(e) => handleInputChange('address.state', e.target.value)}
                     required
+                    error={errors['address.state']}
                     className={cn('input-large', 'text-large')}
                   />
                   <Input
@@ -237,6 +272,7 @@ export default function Register() {
                     onChange={(e) => handleInputChange('address.pincode', e.target.value.replace(/\D/g, '').slice(0, 6))}
                     maxLength={6}
                     required
+                    error={errors['address.pincode']}
                     className={cn('input-large', 'text-large')}
                   />
                 </div>
@@ -257,6 +293,7 @@ export default function Register() {
                   value={formData.emergencyContact.name}
                   onChange={(e) => handleInputChange('emergencyContact.name', e.target.value)}
                   required
+                  error={errors['emergencyContact.name']}
                   className={cn('input-large', 'text-large')}
                 />
                 <Input
@@ -267,6 +304,7 @@ export default function Register() {
                   onChange={(e) => handleInputChange('emergencyContact.mobile', e.target.value.replace(/\D/g, '').slice(0, 10))}
                   maxLength={10}
                   required
+                  error={errors['emergencyContact.mobile']}
                   className={cn('input-large', 'text-large')}
                 />
                 <Input
@@ -276,6 +314,7 @@ export default function Register() {
                   value={formData.emergencyContact.relationship}
                   onChange={(e) => handleInputChange('emergencyContact.relationship', e.target.value)}
                   required
+                  error={errors['emergencyContact.relationship']}
                   className={cn('input-large', 'text-large')}
                 />
               </div>
