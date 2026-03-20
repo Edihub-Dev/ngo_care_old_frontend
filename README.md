@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -269,3 +270,6 @@ For support and questions:
 ---
 
 **ElderCare Platform** - Compassionate care, delivered with technology.
+=======
+# ngo_care_old_frontend
+>>>>>>> 309426e6e5e886d1a2fff0b759e8f3ac3cbcd809
