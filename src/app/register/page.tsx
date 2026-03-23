@@ -72,7 +72,7 @@ export default function Register() {
         className={cn('w-full', 'max-w-md')}
       >
         {/* Header */}
-        <div className={cn('rounded-[24px]', 'bg-white', 'shadow-xl', 'ring-1', 'ring-zinc-100', 'px-5', 'py-5')}>
+        <div className={cn('rounded-3xl', 'bg-white', 'shadow-xl', 'ring-1', 'ring-zinc-100', 'px-5', 'py-5')}>
           <div className={cn('text-center', 'mb-4')}>
             <h1 className={cn('text-xl', 'font-semibold', 'text-zinc-900')}>Create Your Account</h1>
             <p className={cn('mt-0.5', 'text-xs', 'text-zinc-500')}>Join Careon in a few simple steps</p>

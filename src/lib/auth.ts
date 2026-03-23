@@ -1,5 +1,17 @@
 import { useRouter } from 'next/navigation';
 
+const isBrowser = () => typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+
+const safeAtob = (value: string) => {
+  if (typeof atob === 'function') return atob(value);
+  return Buffer.from(value, 'base64').toString('binary');
+};
+
+interface TokenPayload {
+  exp?: number;
+  [key: string]: unknown;
+}
+
 interface User {
   _id: string;
   mobile: string;
@@ -35,6 +47,7 @@ export class AuthManager {
   // Secure token storage with validation
   setToken(token: string): boolean {
     try {
+      if (!isBrowser()) return false;
       if (!this.isValidToken(token)) {
         throw new Error('Invalid token format');
       }
@@ -46,7 +59,7 @@ export class AuthManager {
         throw new Error('Token expired');
       }
 
-      localStorage.setItem('token', token);
+      window.localStorage.setItem('token', token);
       return true;
     } catch (error) {
       console.error('Failed to set token:', error);
@@ -57,7 +70,9 @@ export class AuthManager {
 
   getToken(): string | null {
     try {
-      const token = localStorage.getItem('token');
+      if (!isBrowser()) return null;
+
+      const token = window.localStorage.getItem('token');
       if (!token) return null;
 
       // Validate token format and expiration
@@ -83,11 +98,12 @@ export class AuthManager {
 
   setUser(user: User): void {
     try {
+      if (!isBrowser()) return;
       // Validate user data
       if (!user || !user.mobile || !user._id) {
         throw new Error('Invalid user data');
       }
-      localStorage.setItem('user', JSON.stringify(user));
+      window.localStorage.setItem('user', JSON.stringify(user));
     } catch (error) {
       console.error('Failed to set user:', error);
     }
@@ -95,7 +111,9 @@ export class AuthManager {
 
   getUser(): User | null {
     try {
-      const userData = localStorage.getItem('user');
+      if (!isBrowser()) return null;
+
+      const userData = window.localStorage.getItem('user');
       if (!userData) return null;
 
       const user = JSON.parse(userData);
@@ -129,13 +147,16 @@ export class AuthManager {
     if (this.router) {
       this.router.push('/login');
     } else {
-      window.location.href = '/login';
+      if (isBrowser()) {
+        window.location.href = '/login';
+      }
     }
   }
 
   private clearAuth(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    if (!isBrowser()) return;
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('user');
   }
 
   private isValidToken(token: string): boolean {
@@ -147,10 +168,10 @@ export class AuthManager {
     }
   }
 
-  private parseToken(token: string): Record<string, unknown> {
+  private parseToken(token: string): TokenPayload {
     try {
       const payload = token.split('.')[1];
-      return JSON.parse(atob(payload));
+      return JSON.parse(safeAtob(payload)) as TokenPayload;
     } catch {
       return {};
     }
@@ -164,7 +185,9 @@ export class AuthManager {
       if (this.router) {
         this.router.push('/login');
       } else {
-        window.location.href = '/login';
+        if (isBrowser()) {
+          window.location.href = '/login';
+        }
       }
     }
     
@@ -179,7 +202,9 @@ export class AuthManager {
       if (this.router) {
         this.router.push('/dashboard');
       } else {
-        window.location.href = '/dashboard';
+        if (isBrowser()) {
+          window.location.href = '/dashboard';
+        }
       }
     }
     
