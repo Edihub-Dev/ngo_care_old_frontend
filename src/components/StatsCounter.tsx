@@ -1,7 +1,5 @@
 'use client';
 
-import { ArrowRight } from 'lucide-react';
-
 const stats = [
   {
     id: 1,

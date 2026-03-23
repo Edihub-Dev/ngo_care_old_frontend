@@ -4,7 +4,6 @@ import { ArrowLeft } from 'lucide-react';
 export default async function CauseDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
-  // Format slug to readable title
   const title = slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
   return (

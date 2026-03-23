@@ -42,7 +42,6 @@ export default function FeaturesSection() {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left Column Image */}
           <div className="w-full lg:w-5/12 relative h-[500px] lg:h-auto rounded-[2rem] overflow-hidden">
             <div 
               className="absolute inset-0 bg-cover bg-center"
@@ -50,7 +49,6 @@ export default function FeaturesSection() {
             />
           </div>
 
-          {/* Right Column Cards */}
           <div className="w-full lg:w-7/12 flex flex-col gap-6">
             {programs.map((program) => (
               <div key={program.id} className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm hover:shadow-md transition-shadow">

@@ -30,7 +30,6 @@ const campaigns = [
 export default function CampaignsSection() {
   return (
     <section className="bg-[#050505] py-24 relative overflow-hidden" id="causes">
-      {/* Decorative radial gradients as shown in screenshot */}
       <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(255,255,255,0.03)_0%,transparent_60%)] pointer-events-none" />
       <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(255,255,255,0.03)_0%,transparent_60%)] pointer-events-none" />
 
