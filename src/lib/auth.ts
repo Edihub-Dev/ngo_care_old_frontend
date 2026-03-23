@@ -41,7 +41,8 @@ export class AuthManager {
       
       // Store token with expiration check
       const tokenData = this.parseToken(token);
-      if (tokenData.exp && tokenData.exp * 1000 < Date.now()) {
+      const exp = tokenData.exp as number | undefined;
+      if (exp && exp * 1000 < Date.now()) {
         throw new Error('Token expired');
       }
 
@@ -66,7 +67,8 @@ export class AuthManager {
       }
 
       const tokenData = this.parseToken(token);
-      if (tokenData.exp && tokenData.exp * 1000 < Date.now()) {
+      const exp = tokenData.exp as number | undefined;
+      if (exp && exp * 1000 < Date.now()) {
         this.clearAuth();
         return null;
       }
@@ -145,7 +147,7 @@ export class AuthManager {
     }
   }
 
-  private parseToken(token: string): any {
+  private parseToken(token: string): Record<string, unknown> {
     try {
       const payload = token.split('.')[1];
       return JSON.parse(atob(payload));

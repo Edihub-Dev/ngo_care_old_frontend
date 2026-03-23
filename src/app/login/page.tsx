@@ -4,84 +4,58 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeftIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
-import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import { PhoneIcon, LockClosedIcon, LockOpenIcon, ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { AuthManager } from '@/lib/auth';
 import { authApi } from '@/lib/api';
 import { Validator, validationRules } from '@/lib/validation';
+
+interface LoginResponseData {
+  token: string;
+  user: {
+    _id: string;
+    mobile: string;
+    name?: string;
+    email?: string;
+    role?: string;
+  };
+}
 
 export default function Login() {
   const router = useRouter();
   const authManager = AuthManager.getInstance();
   
   const [mobile, setMobile] = useState('');
-  const [otp, setOtp] = useState('');
-  const [showOtp, setShowOtp] = useState(false);
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isNewUser, setIsNewUser] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     authManager.setRouter(router);
     
-    // Check if user is already logged in
     const authState = authManager.getAuthState();
     
     if (authState.isAuthenticated) {
       if (authManager.isUserRegistered()) {
-        // User is already registered, redirect to dashboard
         router.push('/dashboard');
       } else {
-        // User needs to complete registration
         router.push('/register');
       }
     }
   }, [router, authManager]);
 
-  const handleSendOTP = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate mobile number
     const mobileError = Validator.validateField(mobile, validationRules.mobile, 'Mobile Number');
     if (mobileError) {
       setErrors({ mobile: mobileError });
       return;
     }
     
-    setLoading(true);
-    setErrors({});
-
-    try {
-      const response = await authApi.sendOTP(mobile);
-
-      if (response.success) {
-        setShowOtp(true);
-        setIsNewUser(response.data && typeof response.data === 'object' && 'isNewUser' in response.data ? Boolean((response.data as any).isNewUser) : false);
-        
-        // For development, show OTP
-        if (process.env.NODE_ENV === 'development' && response.data && typeof response.data === 'object' && 'devOTP' in response.data) {
-          alert(`Development OTP: ${(response.data as any).devOTP}`);
-        }
-      } else {
-        throw new Error(response.error?.message || 'Failed to send OTP');
-      }
-    } catch (error) {
-      console.error('Send OTP error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to send OTP. Please try again.';
-      setErrors({ mobile: errorMessage });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOTP = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate OTP
-    const otpError = Validator.validateField(otp, validationRules.otp, 'OTP');
-    if (otpError) {
-      setErrors({ otp: otpError });
+    if (!password || password.length < 6) {
+      setErrors({ password: 'Password must be at least 6 characters' });
       return;
     }
     
@@ -89,187 +63,178 @@ export default function Login() {
     setErrors({});
 
     try {
-      const response = await authApi.verifyOTP(mobile, otp);
+      const response = await authApi.login(mobile, password);
 
       if (response.success) {
-        // Store token and user data securely
-        if (response.data && typeof response.data === 'object' && response.data !== null && 'token' in response.data) {
-          authManager.setToken((response.data as any).token);
+        const data = response.data as LoginResponseData;
+        if (data && 'token' in data) {
+          authManager.setToken(data.token);
         }
         
-        if (response.data && typeof response.data === 'object' && response.data !== null && 'user' in response.data) {
-          authManager.setUser((response.data as any).user);
+        if (data && 'user' in data) {
+          authManager.setUser(data.user);
         }
         
-        // Check if user is already registered (has name)
-        if (response.data && typeof response.data === 'object' && response.data !== null && 'user' in response.data && (response.data as any).user?.name) {
-          // User is already registered, go to dashboard
-          router.push('/dashboard');
-        } else {
-          // New user needs to complete registration
-          router.push('/register');
-        }
+        router.push('/dashboard');
       } else {
-        throw new Error(response.error?.message || 'Invalid OTP');
+        throw new Error(response.error?.message || 'Invalid mobile or password');
       }
     } catch (error) {
-      console.error('Verify OTP error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to verify OTP. Please try again.';
-      setErrors({ otp: errorMessage });
+      console.error('Login error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to login. Please try again.';
+      setErrors({ general: errorMessage });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-blue-50 to-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-8 relative">
+      {/* Back Button - Outside box, top left */}
+      <Link href="/" className="absolute top-4 left-4 inline-flex items-center text-green-700 hover:text-green-800 text-sm font-semibold">
+        <ArrowLeftIcon className="h-4 w-4 mr-1" />
+        Back
+      </Link>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="max-w-md w-full"
       >
-        {/* Header */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-6">
-            <ArrowLeftIcon className="h-4 w-4 mr-2" />
-            Back to Home
-          </Link>
-          
-          <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <ShieldCheckIcon className="h-8 w-8 text-blue-600" />
+        {/* Main Card */}
+        <div className="bg-white rounded-3xl shadow-sm p-8 sm:p-10">
+          {/* Logo */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-green-700 tracking-tight">Careon</h1>
           </div>
-          
-          <h1 className="text-3xl font-bold text-gray-900 mb-2 text-xxlarge">
-            {isNewUser ? 'Complete Registration' : 'Welcome Back'}
-          </h1>
-          <p className="text-gray-600 text-xlarge">
-            {isNewUser 
-              ? 'Verify your mobile number to continue' 
-              : 'Sign in with your mobile number'
-            }
-          </p>
-        </div>
 
-        {/* Form */}
-        <div className="card-soft p-8">
-          {!showOtp ? (
-            <form onSubmit={handleSendOTP} className="space-y-6">
-              <div>
-                <Input
-                  label="Mobile Number"
+          {/* Welcome Text */}
+          <div className="text-center mb-8 mt-4">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>
+            <p className="text-gray-500">Sign in to continue your care journey.</p>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleLogin} className="space-y-5">
+            {/* Mobile Field */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Mobile Number
+              </label>
+              <div className="relative">
+                <input
                   type="tel"
-                  placeholder="Enter your 10-digit mobile number"
+                  placeholder="+91 0000000000"
                   value={mobile}
                   onChange={(e) => {
                     setMobile(e.target.value.replace(/\D/g, '').slice(0, 10));
-                    // Clear error when user starts typing
-                    if (errors.mobile) {
+                    if (errors.mobile || errors.general) {
                       setErrors(prev => {
                         const newErrors = { ...prev };
                         delete newErrors.mobile;
+                        delete newErrors.general;
                         return newErrors;
                       });
                     }
                   }}
-                  maxLength={10}
-                  required
-                  error={errors.mobile}
-                  className="input-large text-large"
+                  className="w-full px-4 py-1 bg-gray-100 border-0 rounded-3xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-green-600 focus:bg-white transition-all pr-12 h-9 text-sm"
                 />
-                <p className="text-sm text-gray-500 mt-2">
-                  We'll send a 6-digit verification code
-                </p>
+                <PhoneIcon className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               </div>
+              {errors.mobile && (
+                <p className="mt-1.5 text-sm text-red-600">{errors.mobile}</p>
+              )}
+            </div>
 
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full btn-large"
-                disabled={loading || mobile.length !== 10 || !!errors.mobile}
-              >
-                {loading ? 'Sending...' : 'Send OTP'}
-              </Button>
-            </form>
-          ) : (
-            <form onSubmit={handleVerifyOTP} className="space-y-6">
-              <div>
-                <Input
-                  label="Verification Code"
-                  type="text"
-                  placeholder="Enter 6-digit OTP"
-                  value={otp}
+            {/* Password Field */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-semibold text-gray-700">
+                  Password
+                </label>
+                <Link 
+                  href="/forgot-password" 
+                  className="text-sm font-semibold text-green-700 hover:text-green-800 transition-colors"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  value={password}
                   onChange={(e) => {
-                    setOtp(e.target.value.replace(/\D/g, '').slice(0, 6));
-                    // Clear error when user starts typing
-                    if (errors.otp) {
+                    setPassword(e.target.value);
+                    if (errors.password || errors.general) {
                       setErrors(prev => {
                         const newErrors = { ...prev };
-                        delete newErrors.otp;
+                        delete newErrors.password;
+                        delete newErrors.general;
                         return newErrors;
                       });
                     }
                   }}
-                  maxLength={6}
-                  required
-                  error={errors.otp}
-                  className="input-large text-large text-center"
+                  className="w-full px-4 py-1 bg-gray-100 border-0 rounded-3xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-green-600 focus:bg-white transition-all pr-12 h-9 text-sm"
                 />
-                <p className="text-sm text-gray-500 mt-2">
-                  Enter the code sent to +91 {mobile}
-                </p>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 hover:text-gray-600 focus:outline-none"
+                >
+                  {showPassword ? <LockOpenIcon className="h-5 w-5" /> : <LockClosedIcon className="h-5 w-5" />}
+                </button>
               </div>
+              {errors.password && (
+                <p className="mt-1.5 text-sm text-red-600">{errors.password}</p>
+              )}
+            </div>
 
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full btn-large"
-                disabled={loading || otp.length !== 6 || !!errors.otp}
-              >
-                {loading ? 'Verifying...' : 'Verify & Continue'}
-              </Button>
+            {/* General Error */}
+            {errors.general && (
+              <p className="text-sm text-red-600 text-center">{errors.general}</p>
+            )}
 
+            {/* Remember Me Toggle */}
+            <div className="flex items-center">
               <button
                 type="button"
-                onClick={() => setShowOtp(false)}
-                className="w-full text-center text-blue-600 hover:text-blue-700 text-large"
+                onClick={() => setRememberMe(!rememberMe)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  rememberMe ? 'bg-green-600' : 'bg-gray-200'
+                }`}
               >
-                Change mobile number
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    rememberMe ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
               </button>
-            </form>
-          )}
-
-          {/* Help Section */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 text-large">Need Help?</h3>
-              <div className="space-y-2">
-                <p className="text-gray-600 text-large">
-                  <strong>Support:</strong> 1800-123-4567
-                </p>
-                <p className="text-gray-600 text-large">
-                  <strong>Emergency:</strong> 108
-                </p>
-                <p className="text-gray-600 text-large">
-                  <strong>Email:</strong> support@eldercare.com
-                </p>
-              </div>
+              <span className="ml-3 text-sm text-gray-600">Remember me for 30 days</span>
             </div>
-          </div>
-        </div>
 
-        {/* Footer */}
-        <div className="text-center mt-6">
-          <p className="text-gray-500 text-sm">
-            By continuing, you agree to our{' '}
-            <Link href="/terms" className="text-blue-600 hover:text-blue-700">
-              Terms of Service
-            </Link>{' '}
-            and{' '}
-            <Link href="/privacy" className="text-blue-600 hover:text-blue-700">
-              Privacy Policy
-            </Link>
-          </p>
+            {/* Login Button */}
+            <button
+              type="submit"
+              disabled={loading || !mobile || !password}
+              className="w-full h-9 px-6 bg-green-700 hover:bg-green-800 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold rounded-3xl shadow-lg shadow-green-700/20 transition-all flex items-center justify-center gap-2 text-sm"
+            >
+              {loading ? 'Signing in...' : (
+                <>
+                  Login
+                  <ArrowRightIcon className="h-4 w-4" />
+                </>
+              )}
+            </button>
+
+            {/* Register Link */}
+            <p className="text-center text-sm text-gray-600">
+              Don&apos;t have an account?{' '}
+              <Link href="/register" className="font-semibold text-green-700 hover:text-green-800 transition-colors">
+                Register
+              </Link>
+            </p>
+          </form>
         </div>
       </motion.div>
     </div>
