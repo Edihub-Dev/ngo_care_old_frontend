@@ -39,7 +39,6 @@ export default function AboutSection() {
            </div>
            
            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-300">
-              {/* Replace with actual SVGs or logos, using placeholder text matching shapes for effect */}
               <div className="flex justify-center"><h3 className="text-2xl font-bold italic mix-blend-multiply">lumina</h3></div>
               <div className="flex justify-center"><h3 className="text-2xl font-black mix-blend-multiply flex items-center gap-1"><span className="w-6 h-6 rounded-full border-4 border-black inline-block"/> spiral</h3></div>
               <div className="flex justify-center"><h3 className="text-3xl font-black mix-blend-multiply">LOQO</h3></div>
