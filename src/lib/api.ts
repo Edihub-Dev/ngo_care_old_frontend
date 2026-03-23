@@ -91,7 +91,10 @@ export const authApi = {
   sendOTP: (mobile: string) => apiClient.post('/api/auth/send-otp', { mobile }),
   verifyOTP: (mobile: string, otp: string) => apiClient.post('/api/auth/verify-otp', { mobile, otp }),
   register: (userData: Record<string, unknown>) => apiClient.post('/api/auth/register', userData),
-  login: (email: string, password: string) => apiClient.post('/api/auth/login', { email, password }),
+  login: (mobile: string, password: string) => apiClient.post('/api/auth/login', { mobile, password }),
+  forgotPasswordSendOTP: (mobile: string) => apiClient.post('/api/auth/forgot-password/send-otp', { mobile }),
+  forgotPasswordVerifyOTP: (mobile: string, otp: string) => apiClient.post('/api/auth/forgot-password/verify-otp', { mobile, otp }),
+  resetPassword: (mobile: string, otp: string, password: string) => apiClient.post('/api/auth/reset-password', { mobile, otp, password }),
 };
 
 export const userApi = {
