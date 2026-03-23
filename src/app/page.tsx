@@ -1,5 +1,6 @@
 'use client';
 
+<<<<<<< HEAD
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import AboutSection from '@/components/sections/AboutSection';
@@ -30,5 +31,35 @@ export default function Home() {
       <CtaSection />
       <Footer />
     </div>
+=======
+import HeroSection from '@/components/HeroSection';
+import Ticker from '@/components/Ticker';
+import AboutSection from '@/components/AboutSection';
+import StatsCounter from '@/components/StatsCounter';
+import CampaignsSection from '@/components/CampaignsSection';
+import FeaturesSection from '@/components/FeaturesSection';
+
+export default function Home() {
+  return (
+    <>
+      {/* Hero Section */}
+      <HeroSection />
+      
+      {/* Ticker */}
+      <Ticker />
+      
+      {/* About Section */}
+      <AboutSection />
+
+      {/* Stats Counter (Impact) */}
+      <StatsCounter />
+      
+      {/* Campaigns Section (Causes) */}
+      <CampaignsSection />
+      
+      {/* Features Section (Programs) */}
+      <FeaturesSection />
+    </>
+>>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
   );
 }

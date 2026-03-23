@@ -1,5 +1,6 @@
 'use client';
 
+<<<<<<< HEAD
 import { motion, useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { Users, Heart, Target, Globe } from 'lucide-react';
@@ -91,6 +92,73 @@ export default function StatsCounter() {
             value={120}
             label="Countries Reached"
           />
+=======
+const stats = [
+  {
+    id: 1,
+    title: 'Meals Distributed',
+    value: '1,000+',
+    subtitle: 'For families and individuals.',
+    image: 'https://images.unsplash.com/photo-1593113589914-075568e0ea00?auto=format&fit=crop&q=80',
+  },
+  {
+    id: 2,
+    title: 'Homes rebuilt',
+    value: '300+',
+    subtitle: 'Families restore safety & dignity.',
+    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80',
+  },
+  {
+    id: 3,
+    title: 'Projects delivered',
+    value: '256+',
+    subtitle: 'Supporting in healthcare & crisis.',
+    image: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80',
+  }
+];
+
+export default function StatsCounter() {
+  return (
+    <section className="bg-[#f2f4f5] py-24" id="impact">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-2.5 h-2.5 rounded-full bg-[#00b749]" />
+              <span className="text-black/80 font-medium">Our Impact</span>
+            </div>
+            <h2 className="text-black text-4xl md:text-5xl font-bold tracking-tight">
+              Together for change
+            </h2>
+          </div>
+          <p className="text-black/70 text-lg max-w-md">
+            Feeding families, educating children & rebuilding lives what our impact shows.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {stats.map((stat) => (
+            <div 
+              key={stat.id} 
+              className="relative rounded-3xl overflow-hidden h-[360px] flex flex-col justify-end p-8"
+              style={{ backgroundImage: `url(${stat.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+              
+              <div className="relative z-10 w-full transform transition-transform duration-500">
+                <h3 className="text-white font-bold text-5xl md:text-[56px] tracking-tight mb-2">
+                  {stat.value}
+                </h3>
+                <p className="text-white font-bold text-xl mb-1">
+                  {stat.title}
+                </p>
+                <p className="text-white/80 text-sm">
+                  {stat.subtitle}
+                </p>
+              </div>
+            </div>
+          ))}
+>>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
         </div>
       </div>
     </section>

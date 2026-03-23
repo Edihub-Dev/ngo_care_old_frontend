@@ -20,6 +20,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
+<<<<<<< HEAD
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
@@ -27,6 +28,11 @@ body {
 
 html {
   background: var(--background);
+=======
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+>>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
 }
 
 /* Elder-friendly styles */
@@ -184,6 +190,7 @@ html {
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
+<<<<<<< HEAD
 .fr-container {
   width: 100%;
   margin-left: auto;
@@ -236,4 +243,22 @@ html {
     padding-top: 6rem;
     padding-bottom: 6rem;
   }
+=======
+/* Custom Hide Scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+>>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
 }

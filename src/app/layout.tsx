@@ -2,15 +2,33 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+<<<<<<< HEAD
 const inter = Inter({
   variable: "--font-inter",
+=======
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+>>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
+<<<<<<< HEAD
   title: "Careon - Modern Nonprofit & Charity Platform",
   description: "Careon is a sleek, professional platform designed for nonprofits, foundations, and fundraising campaigns.",
+=======
+  title: "Careon - Modern Nonprofit & Charity Template",
+  description: "Nonprofit and charity website",
+>>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
 };
 
 export default function RootLayout({
@@ -19,9 +37,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+<<<<<<< HEAD
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
         {children}
+=======
+    <html lang="en" className="scroll-smooth">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black overflow-x-hidden pt-24`}>
+        <Navigation />
+        <main>
+          {children}
+        </main>
+        <Footer />
+>>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
       </body>
     </html>
   );
