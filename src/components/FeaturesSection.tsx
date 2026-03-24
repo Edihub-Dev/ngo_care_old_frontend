@@ -1,223 +1,99 @@
-'use client';
-
-<<<<<<< HEAD
-import { motion } from 'framer-motion';
-import { Shield, Globe, Heart, Users, Target, Award } from 'lucide-react';
-
-const features = [
-  {
-    icon: <Shield className="h-8 w-8" />,
-    title: "Transparent Operations",
-    description: "Every donation is tracked and reported with complete transparency. See exactly how your contribution makes an impact.",
-    reverse: false
-  },
-  {
-    icon: <Globe className="h-8 w-8" />,
-    title: "Global Reach, Local Impact",
-    description: "While we operate worldwide, our focus remains on creating meaningful, lasting change in local communities.",
-    reverse: true
-  },
-  {
-    icon: <Heart className="h-8 w-8" />,
-    title: "Compassionate Approach",
-    description: "We believe in dignity and respect for every individual we serve, ensuring help reaches those who need it most.",
-    reverse: false
-  },
-  {
-    icon: <Users className="h-8 w-8" />,
-    title: "Community-Driven Solutions",
-    description: "Working hand-in-hand with local communities to develop sustainable solutions that address real needs.",
-    reverse: true
-  },
-  {
-    icon: <Target className="h-8 w-8" />,
-    title: "Measurable Results",
-    description: "Our impact is quantified and verified, ensuring that every dollar donated creates maximum positive change.",
-    reverse: false
-  },
-  {
-    icon: <Award className="h-8 w-8" />,
-    title: "Proven Track Record",
-    description: "With over a decade of experience, we've successfully completed thousands of projects worldwide.",
-    reverse: true
-=======
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Heart, Sun, BookOpen, Leaf } from 'lucide-react';
 import Link from 'next/link';
 
 const programs = [
   {
-    id: 'healthcare-access',
-    category: 'Emergency Health Relief',
-    title: 'Healthcare Access',
-    description: 'Ensure fast delivery of medical and health units during emergency to provide care and support recovery.',
+    id: 'old-age-care-and-welfare',
+    category: 'Geriatric Care & Welfare',
+    title: 'Senior Care & Medical Aid',
+    icon: <Heart className="w-6 h-6" />,
+    description: 'Providing nursing care, physiotherapy, medical help, and emotional support to elderly persons who are living alone or are neglected.',
+    image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80',
     raised: 16800,
     goal: 40000,
   },
   {
-    id: 'nutritional-support',
-    category: 'Food Security Initiative',
-    title: 'Nutritional Support',
-    description: 'Ensure timely access to nutritious food, clean water, and supplements for communities in times of crisis.',
+    id: 'religious-and-cultural-objects',
+    category: 'Spiritual & Moral Values',
+    title: 'Religious and Cultural Objects',
+    icon: <Sun className="w-6 h-6" />,
+    description: 'Promoting moral values through spiritual programs, discourses, and the development of Temples, Dharamshalas and Prayer Halls.',
+    image: 'https://images.unsplash.com/photo-1544122159-4f7db1a700da?auto=format&fit=crop&q=80',
     raised: 24500,
     goal: 55000,
->>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
+  },
+  {
+    id: 'educational-and-social-awareness',
+    category: 'Education & Awareness',
+    title: 'Educational and Social Awareness',
+    icon: <BookOpen className="w-6 h-6" />,
+    description: 'Conducting awareness programs on health and hygiene, and running educational and skill development institutions and programs.',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80',
+    raised: 12000,
+    goal: 30000,
+  },
+  {
+    id: 'environment-protection-and-awareness',
+    category: 'Environment Protection',
+    title: 'Environment Protection',
+    icon: <Leaf className="w-6 h-6" />,
+    description: 'Promoting tree plantation drives, water conservation, pond development and sustainable living to protect our natural resources.',
+    image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80',
+    raised: 15000,
+    goal: 35000,
   }
 ];
 
 export default function FeaturesSection() {
   return (
-<<<<<<< HEAD
-    <section className="py-20 bg-linear-to-b from-black to-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Why Choose Careon
-          </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            We're committed to creating lasting change through transparent, effective, and compassionate charitable work
-          </p>
-        </motion.div>
-
-        <div className="space-y-24">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-                feature.reverse ? 'lg:flex-row-reverse' : ''
-              }`}
-            >
-              {/* Content */}
-              <div className={feature.reverse ? 'lg:order-2' : ''}>
-                <div className="flex items-center mb-6 text-green-500">
-                  {feature.icon}
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                  {feature.title}
-                </h3>
-                <p className="text-lg text-gray-300 leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-
-              {/* Visual Element */}
-              <div className={`${feature.reverse ? 'lg:order-1' : ''}`}>
-                <div className="relative">
-                  <div className="absolute inset-0 bg-green-500/20 rounded-2xl blur-3xl"></div>
-                  <div className="relative bg-gray-800 border border-white/10 rounded-2xl p-8 h-64 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        {feature.icon}
-                      </div>
-                      <div className="text-gray-400 text-sm">
-                        Feature {index + 1}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-center mt-20"
-        >
-          <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-8 md:p-12">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              Ready to Make a Difference?
-            </h3>
-            <p className="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
-              Join thousands of donors who trust Careon to deliver meaningful impact where it matters most.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-primary text-lg px-8 py-4">
-                Start Donating
-              </button>
-              <button className="btn-outline text-lg px-8 py-4">
-                Learn More
-              </button>
-            </div>
-          </div>
-        </motion.div>
-=======
-    <section className="bg-[#f0f2f5] py-24" id="programs">
+    <section className="bg-white py-24" id="programs">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-2.5 h-2.5 rounded-full bg-[#00b749]" />
-              <span className="text-black/80 font-medium tracking-wide">Programs</span>
+              <span className="text-black/80 font-medium tracking-wide">Initiatives</span>
             </div>
-            <h2 className="text-black text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-              Spark Positive Change
+            <h2 className="text-black text-4xl md:text-5xl font-bold tracking-tight mb-4">
+              Our Core Programs
             </h2>
           </div>
           <p className="text-black/60 text-lg max-w-sm">
-            Our efforts provide care, skills, and support igniting hope and lasting impact in the lives.
+            Nurturing a dignified, conscious, and sustainable tomorrow for our seniors and our planet.
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
-          <div className="w-full lg:w-5/12 relative h-[500px] lg:h-auto rounded-[2rem] overflow-hidden">
-            <div 
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80")' }}
-            />
-          </div>
-
-          <div className="w-full lg:w-7/12 flex flex-col gap-6">
-            {programs.map((program) => (
-              <div key={program.id} className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm hover:shadow-md transition-shadow">
-                <div className="inline-block px-4 py-1.5 bg-[#e5f7ed] text-[#00b749] text-xs font-bold rounded-full mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {programs.map((program) => (
+            <div key={program.id} className="group bg-[#f9fafb] rounded-[3rem] p-8 md:p-12 border border-black/5 hover:bg-black hover:text-white transition-all duration-500 overflow-hidden relative shadow-sm">
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#e5f7ed] text-[#00b749] text-xs font-bold rounded-full mb-8 w-fit group-hover:bg-[#00b749] group-hover:text-white transition-colors duration-500">
                   {program.category}
                 </div>
                 
-                <h3 className="text-3xl font-bold text-black mb-4 tracking-tight">
+                <h3 className="text-3xl font-bold mb-6 tracking-tight">
                   {program.title}
                 </h3>
                 
-                <p className="text-black/60 text-lg mb-8 leading-relaxed max-w-xl">
+                <p className="text-black/60 group-hover:text-white/70 text-lg mb-10 leading-relaxed max-w-xl transition-colors duration-500">
                   {program.description}
                 </p>
 
-                <div className="flex justify-between items-end mb-8 pt-4 border-t border-black/5">
-                  <div className="flex flex-col">
-                    <span className="text-black/60 text-sm mb-1">Raised Amount</span>
-                    <span className="text-black font-bold text-2xl">${program.raised.toLocaleString()}</span>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <span className="text-black/60 text-sm mb-1">Goal Amount</span>
-                    <span className="text-black font-bold text-2xl">${program.goal.toLocaleString()}</span>
-                  </div>
+                <div className="mt-auto pt-8 border-t border-black/5 group-hover:border-white/10 transition-colors duration-500 overflow-hidden rounded-[2.5rem]">
+                   <img src={program.image} alt={program.title} className="w-full h-56 object-cover rounded-[2rem] group-hover:scale-105 transition-transform duration-700 shadow-sm" />
                 </div>
-
+                
                 <Link 
                   href={`/programs/${program.id}`}
-                  className="inline-flex group/button items-center justify-center py-3 px-8 rounded-full border border-black text-black font-semibold hover:bg-black hover:text-white transition-colors duration-300 gap-2 text-sm"
+                  className="mt-8 inline-flex items-center gap-2 text-sm font-bold group-hover:text-[#00b749] transition-colors"
                 >
-                  Learn More
-                  <ArrowRight className="w-4 h-4 transform group-hover/button:translate-x-1 transition-transform duration-300" />
+                  View Initiative Details
+                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
->>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
       </div>
     </section>
   );

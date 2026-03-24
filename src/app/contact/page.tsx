@@ -146,7 +146,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                        <h4 className="text-xl font-semibold mb-2">Email Address</h4>
-                       <p className="text-white/60 leading-relaxed text-lg">hello@careon.template</p>
+                       <p className="text-white/60 leading-relaxed text-lg">contact@goldenyears.foundation</p>
                     </div>
                  </div>
                  <div className="flex gap-4 items-start">

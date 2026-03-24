@@ -98,7 +98,7 @@ export default function DonatePage() {
              Your Gift Matters
            </h1>
            <p className="text-lg text-black/60">
-             Choose an amount to support our ongoing missions. Every dollar is tracked and effectively utilized.
+             Choose an amount to support our mission in providing dignity and care for seniors. Every dollar is tracked and effectively utilized.
            </p>
         </div>
 
