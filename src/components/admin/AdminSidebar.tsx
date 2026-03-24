@@ -13,6 +13,7 @@ import { usePathname } from 'next/navigation';
 
 const sidebarItems = [
   { icon: HomeIcon, label: 'Dashboard', href: '/admin' },
+  { icon: DocumentTextIcon, label: 'Manage Blogs', href: '/admin/blogs' },
   { icon: UsersIcon, label: 'Users', href: '/admin/users' },
   { icon: DocumentTextIcon, label: 'Service Requests', href: '/admin/requests' },
   { icon: UserGroupIcon, label: 'Staff', href: '/admin/staff' },

@@ -43,18 +43,22 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // For now, simulate login success
-      // In production, replace with actual API call
-      alert('Login functionality ready. Connect API when needed.');
+      const { authApi } = await import('@/lib/api');
+      const { AuthManager } = await import('@/lib/auth');
       
-      // Simulate successful login
-      setTimeout(() => {
+      const response = await authApi.login({ mobile, password });
+      
+      if (response.success && response.data) {
+        const { token, user } = response.data as { token: string; user: any };
+        AuthManager.getInstance().setToken(token);
+        AuthManager.getInstance().setUser(user);
         router.push('/dashboard');
-      }, 1000);
+      } else {
+        setErrors({ general: response.error?.message || 'Invalid credentials' });
+      }
     } catch (error) {
       console.error('Login error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Login failed. Please try again.';
-      setErrors({ general: errorMessage });
+      setErrors({ general: 'Login failed. Please check your connection.' });
     } finally {
       setLoading(false);
     }

@@ -4,6 +4,8 @@ import AboutSection from "@/components/AboutSection";
 import StatsCounter from "@/components/StatsCounter";
 import CampaignsSection from "@/components/CampaignsSection";
 import FeaturesSection from "@/components/FeaturesSection";
+import BlogSection from "@/components/BlogSection";
+
 
 export default function Home() {
   return (
@@ -33,6 +35,9 @@ export default function Home() {
       </section>
 
       <FeaturesSection />
+
+      <BlogSection />
+
 
     </div>
   );

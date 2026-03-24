@@ -51,17 +51,24 @@ export default function Register() {
     setLoading(true);
 
     try {
-      // Simulate registration
-      alert('Registration UI is ready. Connect API when you want.');
+      const { authApi } = await import('@/lib/api');
       
-      // Simulate success
-      setTimeout(() => {
+      const response = await authApi.register({ 
+        name: fullName, 
+        mobile: phone, 
+        password,
+        address
+      });
+      
+      if (response.success) {
+        alert('Registration successful! Redirecting to login...');
         router.push('/login');
-      }, 1000);
+      } else {
+        alert(response.error?.message || 'Registration failed');
+      }
     } catch (error) {
       console.error('Registration error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Registration failed. Please try again.';
-      alert(errorMessage);
+      alert('Registration failed. Mobile number might already be in use.');
     } finally {
       setLoading(false);
     }
