@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
+import { Metadata } from 'next';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import ClientLayout from "@/components/ClientLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Careon - Modern Nonprofit & Charity Template",
-  description: "Nonprofit and charity website",
+  title: "Golden Years Care Foundation - Dignity, Care & Companionship for Elders",
+  description: "A nonprofit foundation dedicated to providing dignity, care, and companionship for elders.",
 };
 
 export default function RootLayout({
@@ -27,12 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black overflow-x-hidden pt-24`}>
-        <Navigation />
-        <main>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black overflow-x-hidden`}>
+        <ClientLayout>
           {children}
-        </main>
-        <Footer />
+        </ClientLayout>
       </body>
     </html>
   );

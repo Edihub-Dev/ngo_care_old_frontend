@@ -49,7 +49,7 @@ export default function ContactPage() {
               <h3 className="text-3xl font-bold tracking-tight mb-10">Contact Information</h3>
               <div className="space-y-8">
                  <div className="flex gap-4 items-start">
-                    <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center shrink-0 border border-white/10 text-[#00b749]">
+                     <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center shrink-0 border border-white/10 text-[#00b749]">
                        <MapPin className="w-5 h-5" />
                     </div>
                     <div>
@@ -58,16 +58,16 @@ export default function ContactPage() {
                     </div>
                  </div>
                  <div className="flex gap-4 items-start">
-                    <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center shrink-0 border border-white/10 text-[#00b749]">
+                     <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center shrink-0 border border-white/10 text-[#00b749]">
                        <Mail className="w-5 h-5" />
                     </div>
                     <div>
                        <h4 className="text-xl font-semibold mb-2">Email Address</h4>
-                       <p className="text-white/60 leading-relaxed text-lg">hello@careon.template</p>
+                       <p className="text-white/60 leading-relaxed text-lg">contact@goldenyears.foundation</p>
                     </div>
                  </div>
                  <div className="flex gap-4 items-start">
-                    <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center shrink-0 border border-white/10 text-[#00b749]">
+                     <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center shrink-0 border border-white/10 text-[#00b749]">
                        <Phone className="w-5 h-5" />
                     </div>
                     <div>

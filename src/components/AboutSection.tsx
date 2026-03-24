@@ -14,10 +14,10 @@ export default function AboutSection() {
                 <span className="text-black/80 font-medium">About Us</span>
              </div>
              <h2 className="text-black text-4xl md:text-5xl font-bold tracking-tight mb-6">
-               United Together to Create Enduring Hope
+               Providing a Haven of Comfort and Joy for Every Senior
              </h2>
              <p className="text-black/70 text-lg mb-8">
-               We are purpose driven organization empowering health & education.
+               We are a mission-driven organization focused on senior well-being, specialized healthcare, and vibrant social engagement to ensure our elders live with honor.
              </p>
              <Link 
                 href="/about"
@@ -28,7 +28,7 @@ export default function AboutSection() {
              </Link>
           </div>
           <div className="flex-1 w-full">
-            <div className="h-[400px] lg:h-[450px] w-full bg-cover bg-center rounded-3xl" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80")' }} />
+            <div className="h-[400px] lg:h-[450px] w-full bg-cover bg-center rounded-3xl shadow-xl" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80")' }} />
           </div>
         </div>
 
@@ -39,13 +39,12 @@ export default function AboutSection() {
            </div>
            
            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-300">
-              {/* Replace with actual SVGs or logos, using placeholder text matching shapes for effect */}
-              <div className="flex justify-center"><h3 className="text-2xl font-bold italic mix-blend-multiply">lumina</h3></div>
-              <div className="flex justify-center"><h3 className="text-2xl font-black mix-blend-multiply flex items-center gap-1"><span className="w-6 h-6 rounded-full border-4 border-black inline-block"/> spiral</h3></div>
-              <div className="flex justify-center"><h3 className="text-3xl font-black mix-blend-multiply">LOQO</h3></div>
-              <div className="flex justify-center"><h3 className="text-3xl font-bold italic tracking-tighter mix-blend-multiply">cico</h3></div>
-              <div className="flex justify-center"><h3 className="text-2xl font-bold mix-blend-multiply flex items-center gap-1"><span className="w-6 h-6 rounded-sm bg-black inline-block rotate-45"/> Logoipsum</h3></div>
-              <div className="flex justify-center"><h3 className="text-2xl font-black tracking-widest mix-blend-multiply">IPSUM</h3></div>
+              <div className="flex justify-center"><h3 className="text-2xl font-bold italic mix-blend-multiply text-black">lumina</h3></div>
+              <div className="flex justify-center"><h3 className="text-2xl font-black mix-blend-multiply flex items-center gap-1 text-black"><span className="w-6 h-6 rounded-full border-4 border-black inline-block"/> spiral</h3></div>
+              <div className="flex justify-center"><h3 className="text-3xl font-black mix-blend-multiply text-black">LOQO</h3></div>
+              <div className="flex justify-center"><h3 className="text-3xl font-bold italic tracking-tighter mix-blend-multiply text-black">cico</h3></div>
+              <div className="flex justify-center"><h3 className="text-2xl font-bold mix-blend-multiply flex items-center gap-1 text-black"><span className="w-6 h-6 rounded-sm bg-black inline-block rotate-45"/> Logoipsum</h3></div>
+              <div className="flex justify-center"><h3 className="text-2xl font-black tracking-widest mix-blend-multiply text-black">IPSUM</h3></div>
            </div>
         </div>
       </div>
