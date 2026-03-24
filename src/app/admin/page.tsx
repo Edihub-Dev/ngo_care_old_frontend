@@ -10,8 +10,47 @@ import {
 } from '@heroicons/react/24/outline';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 
+ type AdminUserSummary = {
+   name?: string;
+ };
+
+ type AdminServiceRequestSummary = {
+   _id: string;
+   user?: AdminUserSummary;
+   serviceType?: string;
+   status?: string;
+   createdAt: string;
+ };
+
+ type AdminEmergencyRequestSummary = {
+   user?: AdminUserSummary;
+   description?: string;
+   createdAt: string;
+ };
+
+ type AdminDashboardAnalytics = {
+   users?: {
+     total?: number;
+     newThisMonth?: number;
+   };
+   requests?: {
+     total?: number;
+     pending?: number;
+   };
+   staff?: {
+     total?: number;
+     available?: number;
+   };
+   revenue?: {
+     total?: number;
+     thisMonth?: number;
+   };
+   recentRequests?: AdminServiceRequestSummary[];
+   emergencyRequests?: AdminEmergencyRequestSummary[];
+ };
+
 export default function AdminDashboard() {
-  const [analytics, setAnalytics] = useState<any>(null);
+  const [analytics, setAnalytics] = useState<AdminDashboardAnalytics | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -126,7 +165,7 @@ export default function AdminDashboard() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {analytics?.recentRequests?.slice(0, 5).map((request: any) => (
+                  {analytics?.recentRequests?.slice(0, 5).map((request) => (
                     <tr key={request._id}>
                       <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                         {request.user?.name || 'Unknown'}
@@ -158,7 +197,7 @@ export default function AdminDashboard() {
           <div className="bg-white p-6 rounded-lg shadow">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Emergency Alerts</h3>
             <div className="space-y-4">
-              {analytics?.emergencyRequests?.slice(0, 3).map((alert: any, index: number) => (
+              {analytics?.emergencyRequests?.slice(0, 3).map((alert, index: number) => (
                 <div key={index} className="border-l-4 border-red-500 bg-red-50 p-4">
                   <div className="flex">
                     <div className="shrink-0">
