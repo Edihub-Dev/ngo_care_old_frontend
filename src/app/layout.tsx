@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+=======
+'use client';
+
+import { usePathname } from 'next/navigation';
+import { Geist, Geist_Mono } from "next/font/google";
+>>>>>>> 260e1cde52687c75c73fbb342c1bf109580c7129
 import "./globals.css";
 
 <<<<<<< HEAD
@@ -24,6 +31,7 @@ const geistMono = Geist_Mono({
   weight: ["400", "500", "600", "700"],
 });
 
+<<<<<<< HEAD
 export const metadata: Metadata = {
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -39,11 +47,20 @@ export const metadata: Metadata = {
 >>>>>>> parent of 1274573 (Add New UI of landing page)
 };
 
+=======
+>>>>>>> 260e1cde52687c75c73fbb342c1bf109580c7129
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isAuthPage = pathname === '/login' || 
+                     pathname === '/register' || 
+                     pathname === '/forgot-password' || 
+                     pathname === '/verify-otp' || 
+                     pathname === '/reset-password';
+
   return (
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -52,11 +69,12 @@ export default function RootLayout({
         {children}
 =======
     <html lang="en" className="scroll-smooth">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black overflow-x-hidden pt-24`}>
-        <Navigation />
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black overflow-x-hidden ${isAuthPage ? '' : 'pt-24'}`}>
+        {!isAuthPage && <Navigation />}
         <main>
           {children}
         </main>
+<<<<<<< HEAD
         <Footer />
 >>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
 =======
@@ -66,6 +84,9 @@ export default function RootLayout({
       >
         {children}
 >>>>>>> parent of 1274573 (Add New UI of landing page)
+=======
+        {!isAuthPage && <Footer />}
+>>>>>>> 260e1cde52687c75c73fbb342c1bf109580c7129
       </body>
     </html>
   );

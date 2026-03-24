@@ -19,8 +19,6 @@
 body {
   background: var(--background);
   color: var(--foreground);
-<<<<<<< HEAD
-<<<<<<< HEAD
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
@@ -28,15 +26,6 @@ body {
 
 html {
   background: var(--background);
-=======
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  line-height: 1.6;
-  overflow-x: hidden;
->>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
-=======
-  font-family: system-ui, -apple-system, sans-serif;
-  line-height: 1.6;
->>>>>>> parent of 1274573 (Add New UI of landing page)
 }
 
 /* Elder-friendly styles */
@@ -109,9 +98,7 @@ html {
 * {
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
-<<<<<<< HEAD
 
-<<<<<<< HEAD
 .fr-container {
   width: 100%;
   margin-left: auto;
@@ -164,7 +151,8 @@ html {
     padding-top: 6rem;
     padding-bottom: 6rem;
   }
-=======
+}
+
 /* Custom Hide Scrollbar */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
@@ -181,7 +169,4 @@ html {
 }
 .animate-marquee {
   animation: marquee 20s linear infinite;
->>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
 }
-=======
->>>>>>> parent of 1274573 (Add New UI of landing page)

@@ -124,10 +124,10 @@ import Link from 'next/link';
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[90vh] min-h-[600px] flex items-center justify-center pt-20">
+    <section className="relative w-full h-90 min-h-150 flex items-center justify-center pt-20">
       {/* Background Image with Overlay */}
       <div
-        className="absolute inset-0 z-0 bg-cover bg-center"
+        className="absolute inset-0 z-0 bg-cover bg-linear-to-ter"
         style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")' }}
       >
         <div className="absolute inset-0 bg-black/50" />
