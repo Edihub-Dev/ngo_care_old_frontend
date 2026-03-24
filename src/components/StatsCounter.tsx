@@ -47,10 +47,10 @@ export default function StatsCounter() {
           {stats.map((stat) => (
             <div 
               key={stat.id} 
-              className="relative rounded-3xl overflow-hidden h-[360px] flex flex-col justify-end p-8"
+              className="relative rounded-3xl overflow-hidden h-90 flex flex-col justify-end p-8"
               style={{ backgroundImage: `url(${stat.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
               
               <div className="relative z-10 w-full transform transition-transform duration-500">
                 <h3 className="text-white font-bold text-5xl md:text-[56px] tracking-tight mb-2">

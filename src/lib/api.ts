@@ -4,10 +4,10 @@ import { authFetch } from './auth';
 export interface ApiError {
   message: string;
   code?: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   message?: string;
@@ -62,7 +62,7 @@ export class ApiClient {
   }
 
   // POST request
-  async post<T>(url: string, data?: any): Promise<ApiResponse<T>> {
+  async post<T>(url: string, data?: Record<string, unknown>): Promise<ApiResponse<T>> {
     return this.request<T>(url, {
       method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
@@ -70,7 +70,7 @@ export class ApiClient {
   }
 
   // PUT request
-  async put<T>(url: string, data?: any): Promise<ApiResponse<T>> {
+  async put<T>(url: string, data?: Record<string, unknown>): Promise<ApiResponse<T>> {
     return this.request<T>(url, {
       method: 'PUT',
       body: data ? JSON.stringify(data) : undefined,
@@ -90,12 +90,15 @@ export const apiClient = ApiClient.getInstance();
 export const authApi = {
   sendOTP: (mobile: string) => apiClient.post('/api/auth/send-otp', { mobile }),
   verifyOTP: (mobile: string, otp: string) => apiClient.post('/api/auth/verify-otp', { mobile, otp }),
-  register: (userData: any) => apiClient.post('/api/auth/register', userData),
+  register: (userData: Record<string, unknown>) => apiClient.post('/api/auth/register', userData),
+  forgotPasswordSendOTP: (mobile: string) => apiClient.post('/api/auth/forgot-password/send-otp', { mobile }),
+  forgotPasswordVerifyOTP: (mobile: string, otp: string) => apiClient.post('/api/auth/forgot-password/verify-otp', { mobile, otp }),
+  resetPassword: (mobile: string, otp: string, password: string) => apiClient.post('/api/auth/reset-password', { mobile, otp, password }),
 };
 
 export const userApi = {
   getStats: () => apiClient.get('/api/users/stats'),
-  updateProfile: (data: any) => apiClient.put('/api/users/profile', data),
+  updateProfile: (data: Record<string, unknown>) => apiClient.put('/api/users/profile', data),
 };
 
 export const adminApi = {

@@ -5,11 +5,11 @@ import Link from 'next/link';
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center">
+    <section className="relative w-full h-[90vh] min-h-[600px] flex items-center justify-center pt-20">
       {/* Background Image with Overlay */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1573384660919-47c024f0927e?auto=format&fit=crop&q=80")' }}
+        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")' }}
       >
         <div className="absolute inset-0 bg-black/50" />
       </div>
@@ -33,7 +33,7 @@ export default function HeroSection() {
             href="/login"
             className="group bg-[#00b749] hover:bg-[#00a040] text-white px-8 py-4 rounded-full text-base font-semibold transition-all flex items-center gap-2 w-full sm:w-auto justify-center"
           >
-            Login
+            Login Now
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
 
