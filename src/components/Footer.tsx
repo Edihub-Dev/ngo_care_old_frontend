@@ -34,8 +34,8 @@ export default function Footer() {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 relative z-10">
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center space-x-2 mb-6">
-              <span className="text-2xl font-bold text-white tracking-tight">Careon</span>
+            <Link href="/" className="flex items-center space-x-2 mb-6 bg-white/90 p-3 rounded-xl max-w-fit">
+              <img src="/assets/Logo.png" alt="Golden Years Care Foundation" className="h-12 md:h-14 w-auto object-contain" />
             </Link>
             <p className="text-white/60 text-sm leading-relaxed mb-6 pe-4">
               Empowering communities, rebuilding hope, and driving measurable impact through innovative charitable solutions.
@@ -100,7 +100,7 @@ export default function Footer() {
         {/* Bottom Footer */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10 w-full">
           <p className="text-white/40 text-sm">
-            © {new Date().getFullYear()} Careon Template. Developed by Antigravity.
+            © {new Date().getFullYear()} Golden Years Care Foundation. Developed by Antigravity.
           </p>
           <div className="flex space-x-6 text-sm text-white/40">
             <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>

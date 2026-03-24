@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Careon - Modern Nonprofit & Charity Template",
-  description: "Nonprofit and charity website",
+  title: "Golden Years Care Foundation - Dignity, Care & Companionship for Elders",
+  description: "A nonprofit foundation dedicated to providing dignity, care, and companionship for elders.",
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black overflow-x-hidden pt-24`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black overflow-x-hidden`}>
         <Navigation />
         <main>
           {children}

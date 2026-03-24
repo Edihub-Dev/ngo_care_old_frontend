@@ -3,24 +3,24 @@
 const stats = [
   {
     id: 1,
-    title: 'Meals Distributed',
-    value: '1,000+',
-    subtitle: 'For families and individuals.',
-    image: 'https://images.unsplash.com/photo-1593113589914-075568e0ea00?auto=format&fit=crop&q=80',
+    title: 'Seniors Supported',
+    value: '1,200+',
+    subtitle: 'Providing dignity and companionship.',
+    image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80',
   },
   {
     id: 2,
-    title: 'Homes rebuilt',
-    value: '300+',
-    subtitle: 'Families restore safety & dignity.',
-    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80',
+    title: 'Health Checkups',
+    value: '5,000+',
+    subtitle: 'Specialized geriatric medical care.',
+    image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&q=80',
   },
   {
     id: 3,
-    title: 'Projects delivered',
-    value: '256+',
-    subtitle: 'Supporting in healthcare & crisis.',
-    image: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80',
+    title: 'Balanced Meals',
+    value: '10k+',
+    subtitle: 'Tailored nutrition for every elder.',
+    image: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&q=80',
   }
 ];
 
@@ -35,11 +35,11 @@ export default function StatsCounter() {
               <span className="text-black/80 font-medium">Our Impact</span>
             </div>
             <h2 className="text-black text-4xl md:text-5xl font-bold tracking-tight">
-              Together for change
+              A Legacy of Care
             </h2>
           </div>
           <p className="text-black/70 text-lg max-w-md">
-            Feeding families, educating children & rebuilding lives what our impact shows.
+            Our impact is measured in the smiles, health, and dignity of the seniors we serve every single day.
           </p>
         </div>
 
