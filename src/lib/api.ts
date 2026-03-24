@@ -88,12 +88,8 @@ export const apiClient = ApiClient.getInstance();
 
 // Specific API methods
 export const authApi = {
-  sendOTP: (mobile: string) => apiClient.post('/api/auth/send-otp', { mobile }),
-  verifyOTP: (mobile: string, otp: string) => apiClient.post('/api/auth/verify-otp', { mobile, otp }),
-  register: (userData: Record<string, unknown>) => apiClient.post('/api/auth/register', userData),
-  forgotPasswordSendOTP: (mobile: string) => apiClient.post('/api/auth/forgot-password/send-otp', { mobile }),
-  forgotPasswordVerifyOTP: (mobile: string, otp: string) => apiClient.post('/api/auth/forgot-password/verify-otp', { mobile, otp }),
-  resetPassword: (mobile: string, otp: string, password: string) => apiClient.post('/api/auth/reset-password', { mobile, otp, password }),
+  login: (credentials: Record<string, string>) => apiClient.post('/api/auth/login', credentials),
+  register: (userData: Record<string, string>) => apiClient.post('/api/auth/register', userData),
 };
 
 export const userApi = {
@@ -112,4 +108,15 @@ export const adminApi = {
 export const emergencyApi = {
   triggerSOS: (location: { lat: number; lng: number }, description?: string) =>
     apiClient.post('/api/emergency/sos', { location, description }),
+};
+
+export const blogApi = {
+  getAll: (params?: Record<string, unknown>) => {
+    const query = params ? `?${new URLSearchParams(params as any).toString()}` : '';
+    return apiClient.get(`/api/blogs${query}`);
+  },
+  getOne: (id: string) => apiClient.get(`/api/blogs/${id}`),
+  create: (data: Record<string, unknown>) => apiClient.post('/api/blogs', data),
+  update: (id: string, data: Record<string, unknown>) => apiClient.put(`/api/blogs/${id}`, data),
+  delete: (id: string) => apiClient.delete(`/api/blogs/${id}`),
 };
