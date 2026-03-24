@@ -90,6 +90,10 @@ export const apiClient = ApiClient.getInstance();
 export const authApi = {
   login: (credentials: Record<string, string>) => apiClient.post('/api/auth/login', credentials),
   register: (userData: Record<string, string>) => apiClient.post('/api/auth/register', userData),
+  forgotPasswordSendOTP: (mobile: string) => apiClient.post('/api/auth/forgot-password', { mobile }),
+  forgotPasswordVerifyOTP: (mobile: string, otp: string) => apiClient.post('/api/auth/verify-otp', { mobile, otp }),
+  resetPassword: (mobile: string, otp: string, password: string) => 
+    apiClient.post('/api/auth/reset-password', { mobile, otp, password }),
 };
 
 export const userApi = {
