@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-'use client';
-
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import AboutSection from '@/components/sections/AboutSection';
-
-export default function AboutPage() {
-  return (
-    <div className="min-h-screen bg-zinc-100">
-      <Navigation />
-      <div className="pt-20">
-        <AboutSection />
-      </div>
-      <Footer />
-=======
 import AboutSection from '@/components/AboutSection';
 import StatsCounter from '@/components/StatsCounter';
 import { Heart, BookOpen, Sun, Leaf } from 'lucide-react';
@@ -156,7 +140,6 @@ export default function AboutPage() {
       </section>
 
       <StatsCounter />
->>>>>>> 5c90f1c201ecb0125b17314320968086e2ffd1b5
     </div>
   );
 }
