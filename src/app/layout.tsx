@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+'use client';
+
+import { usePathname } from 'next/navigation';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -15,24 +17,26 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Careon - Modern Nonprofit & Charity Template",
-  description: "Nonprofit and charity website",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isAuthPage = pathname === '/login' || 
+                     pathname === '/register' || 
+                     pathname === '/forgot-password' || 
+                     pathname === '/verify-otp' || 
+                     pathname === '/reset-password';
+
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black overflow-x-hidden pt-24`}>
-        <Navigation />
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black overflow-x-hidden ${isAuthPage ? '' : 'pt-24'}`}>
+        {!isAuthPage && <Navigation />}
         <main>
           {children}
         </main>
-        <Footer />
+        {!isAuthPage && <Footer />}
       </body>
     </html>
   );
