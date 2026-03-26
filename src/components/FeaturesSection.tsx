@@ -3,44 +3,52 @@ import Link from 'next/link';
 
 const programs = [
   {
-    id: 'old-age-care-and-welfare',
-    category: 'Geriatric Care & Welfare',
-    title: 'Senior Care & Medical Aid',
+    id: 'old-age-homes',
+    category: 'Residential Care',
+    title: 'Old Age Homes',
     icon: <Heart className="w-6 h-6" />,
-    description: 'Providing nursing care, physiotherapy, medical help, and emotional support to elderly persons who are living alone or are neglected.',
-    image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80',
-    raised: 16800,
-    goal: 40000,
+    description: 'Safe residential facilities providing complete care and support for senior citizens.',
+    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&q=80',
   },
   {
-    id: 'religious-and-cultural-objects',
-    category: 'Spiritual & Moral Values',
-    title: 'Religious and Cultural Objects',
+    id: 'day-care-services',
+    category: 'Social Engagement',
+    title: 'Day Care Services',
     icon: <Sun className="w-6 h-6" />,
-    description: 'Promoting moral values through spiritual programs, discourses, and the development of Temples, Dharamshalas and Prayer Halls.',
-    image: 'https://images.unsplash.com/photo-1544122159-4f7db1a700da?auto=format&fit=crop&q=80',
-    raised: 24500,
-    goal: 55000,
+    description: 'Engaging environment for seniors with social interaction and daily care.',
+    image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80',
   },
   {
-    id: 'educational-and-social-awareness',
-    category: 'Education & Awareness',
-    title: 'Educational and Social Awareness',
+    id: 'healthcare-programs',
+    category: 'Medical Support',
+    title: 'Healthcare Programs',
     icon: <BookOpen className="w-6 h-6" />,
-    description: 'Conducting awareness programs on health and hygiene, and running educational and skill development institutions and programs.',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80',
-    raised: 12000,
-    goal: 30000,
+    description: 'Free medical camps, physiotherapy, and ongoing health support.',
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80',
   },
   {
-    id: 'environment-protection-and-awareness',
-    category: 'Environment Protection',
-    title: 'Environment Protection',
+    id: 'relief-for-needy',
+    category: 'Basic Necessities',
+    title: 'Relief for Needy',
     icon: <Leaf className="w-6 h-6" />,
-    description: 'Promoting tree plantation drives, water conservation, pond development and sustainable living to protect our natural resources.',
-    image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80',
-    raised: 15000,
-    goal: 35000,
+    description: 'Providing essentials like food, shelter, and care to underprivileged elderly individuals.',
+    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'awareness-and-training',
+    category: 'Education',
+    title: 'Awareness & Training',
+    icon: <BookOpen className="w-6 h-6" />,
+    description: 'Seminars, workshops, and skill development programs.',
+    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'environmental-initiatives',
+    category: 'Environment',
+    title: 'Environmental Initiatives',
+    icon: <Leaf className="w-6 h-6" />,
+    description: 'Tree plantation, cleanliness drives, and sustainability awareness.',
+    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80',
   }
 ];
 
@@ -54,16 +62,16 @@ export default function FeaturesSection() {
               <div className="w-2.5 h-2.5 rounded-full bg-[#00b749]" />
               <span className="text-black/80 font-medium tracking-wide">Initiatives</span>
             </div>
-            <h2 className="text-black text-4xl md:text-5xl font-bold tracking-tight mb-4">
-              Our Core Programs
+            <h2 className="text-black text-4xl md:text-5xl font-bold tracking-tight mb-4 leading-tight">
+              Our Key Programs
             </h2>
           </div>
           <p className="text-black/60 text-lg max-w-sm">
-            Nurturing a dignified, conscious, and sustainable tomorrow for our seniors and our planet.
+            Nurturing a dignified and supportive world for our seniors to live with comfort and honor.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {programs.map((program) => (
             <div key={program.id} className="group bg-[#f9fafb] rounded-[3rem] p-8 md:p-12 border border-black/5 hover:bg-black hover:text-white transition-all duration-500 overflow-hidden relative shadow-sm">
               <div className="relative z-10 flex flex-col h-full">

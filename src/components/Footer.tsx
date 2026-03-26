@@ -11,16 +11,16 @@ export default function Footer() {
         <div className="bg-[#121212] rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden mb-24 border border-white/5">
           <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
             <h2 className="text-white text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 leading-tight">
-              Spark Positive<br />Change
+              Get Involved<br />Today
             </h2>
             <p className="text-white/70 text-lg md:text-xl mb-12">
-              Every small action contributes to a grander transformation. Start your journey with us today and fuel hope.
+              Whether you want to donate, volunteer, or partner with us — we welcome you.
             </p>
             <Link 
               href="/donate" 
               className="inline-flex items-center justify-center bg-[#00b749] hover:bg-[#00a040] text-white px-8 py-4 rounded-full text-base font-semibold transition-all group"
             >
-              Start Giving Today
+              Get Started
               <ArrowRight className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

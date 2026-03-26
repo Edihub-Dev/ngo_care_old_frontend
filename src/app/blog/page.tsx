@@ -44,10 +44,10 @@ export default function BlogPage() {
              Our Journal
            </span>
            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-             Blog & News
+             Our Blog
            </h1>
            <p className="text-xl text-black/60 max-w-2xl mx-auto">
-             Stories of resilience, impact reports, and updates directly from the field.
+             Explore stories, insights, and updates from Golden Years Care Foundation.
            </p>
         </div>
 

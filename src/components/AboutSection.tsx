@@ -13,11 +13,14 @@ export default function AboutSection() {
                 <div className="w-2.5 h-2.5 rounded-full bg-[#00b749]" />
                 <span className="text-black/80 font-medium">About Us</span>
              </div>
-             <h2 className="text-black text-4xl md:text-5xl font-bold tracking-tight mb-6">
-               Providing a Haven of Comfort and Joy for Every Senior
+             <h2 className="text-black text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
+               We Care for the Forgotten Generation
              </h2>
-             <p className="text-black/70 text-lg mb-8">
-               We are a mission-driven organization focused on senior well-being, specialized healthcare, and vibrant social engagement to ensure our elders live with honor.
+             <p className="text-black/70 text-lg mb-8 leading-relaxed">
+               Golden Years Care Foundation is dedicated to improving the quality of life for senior 
+               citizens by providing safe shelter, healthcare, and emotional support.
+               <br /><br />
+               We work to ensure that no elderly person feels abandoned, neglected, or alone.
              </p>
              <Link 
                 href="/about"

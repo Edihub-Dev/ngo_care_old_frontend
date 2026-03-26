@@ -6,11 +6,11 @@ export default function DonatePage() {
            <span className="bg-[#e5f7ed] text-[#00b749] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 inline-block">
              Donation
            </span>
-           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-             Your Gift Matters
+           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+             Give Love. Give Care. Give Dignity.
            </h1>
-           <p className="text-lg text-black/60">
-             Choose an amount to support our mission in providing dignity and care for seniors. Every dollar is tracked and effectively utilized.
+           <p className="text-lg text-black/60 leading-relaxed">
+             Your donation helps us provide shelter, medical aid, and dignity to senior citizens in need.
            </p>
         </div>
 

@@ -10,9 +10,9 @@ export default function ProgramsPage() {
           <span className="bg-[#e5f7ed] text-[#00b749] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 inline-block">
             Our Initiatives
           </span>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 text-black">Programs</h1>
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 text-black">Our Programs</h1>
           <p className="text-xl md:text-2xl text-black/60 max-w-3xl mx-auto leading-relaxed">
-            Discover our comprehensive range of initiatives from specialized elder care to environmental conservation and spiritual growth.
+            Discover our core initiatives dedicated to providing care, healthcare, and social support for senior citizens.
           </p>
         </div>
 

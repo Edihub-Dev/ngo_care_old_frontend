@@ -32,16 +32,25 @@ export class ApiClient {
   ): Promise<ApiResponse<T>> {
     try {
       const response = await authFetch(url, options);
-      const data = await response.json();
+
+      // Safely parse JSON — avoid SyntaxError if backend is down and proxy returns HTML
+      const contentType = response.headers.get('content-type') || '';
+      let data: Record<string, unknown> = {};
+      if (contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(`Server returned non-JSON response (status ${response.status}): ${text.slice(0, 100)}`);
+      }
 
       if (!response.ok) {
-        throw new Error(data.message || `HTTP ${response.status}: ${response.statusText}`);
+        throw new Error((data.message as string) || `HTTP ${response.status}: ${response.statusText}`);
       }
 
       return {
         success: true,
-        data: data.data || data,
-        message: data.message
+        data: (data.data || data) as T,
+        message: data.message as string | undefined
       };
     } catch (error) {
       console.error('API Request Error:', error);

@@ -8,11 +8,11 @@ export default function ContactPage() {
            <span className="bg-[#00b749]/20 text-[#00b749] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 inline-block">
              Reach Out
            </span>
-           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-             Get In Touch
+           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+             Contact Us
            </h1>
-           <p className="text-xl text-white/70">
-             We are always keen on discussing new partnerships, answering queries, or listening to feedback.
+           <p className="text-xl text-white/70 leading-relaxed">
+             We’d love to hear from you. Reach out to support, volunteer, or collaborate with us.
            </p>
         </div>
 

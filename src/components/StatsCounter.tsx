@@ -3,23 +3,30 @@ const stats = [
   {
     id: 1,
     title: 'Seniors Supported',
-    value: '1,200+',
+    value: '500+',
     subtitle: 'Providing dignity and companionship.',
     image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80',
   },
   {
     id: 2,
-    title: 'Health Checkups',
-    value: '5,000+',
+    title: 'Health Camps Organized',
+    value: '50+',
     subtitle: 'Specialized geriatric medical care.',
     image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&q=80',
   },
   {
     id: 3,
-    title: 'Balanced Meals',
-    value: '10k+',
-    subtitle: 'Tailored nutrition for every elder.',
+    title: 'Lives Impacted',
+    value: '1000+',
+    subtitle: 'Directly improving quality of life.',
     image: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&q=80',
+  },
+  {
+    id: 4,
+    title: 'Community Programs',
+    value: '20+',
+    subtitle: 'Fostering engagement and support.',
+    image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80',
   }
 ];
 
@@ -33,8 +40,8 @@ export default function StatsCounter() {
               <div className="w-2.5 h-2.5 rounded-full bg-[#00b749]" />
               <span className="text-black/80 font-medium">Our Impact</span>
             </div>
-            <h2 className="text-black text-4xl md:text-5xl font-bold tracking-tight">
-              A Legacy of Care
+            <h2 className="text-black text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+              Our Work in Numbers
             </h2>
           </div>
           <p className="text-black/70 text-lg max-w-md">
@@ -42,7 +49,7 @@ export default function StatsCounter() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat) => (
             <div 
               key={stat.id} 

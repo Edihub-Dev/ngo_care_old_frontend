@@ -15,32 +15,36 @@ export default function HeroSection() {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-start justify-center">
         <p className="text-[#00b749] font-medium text-lg md:text-xl mb-4 tracking-wide">
-          Dignity, Care & Companionship
+          Give Love. Give Care. Give Dignity.
         </p>
 
-        <h1 className="text-white font-bold text-6xl md:text-7xl lg:text-8xl leading-[1.1] tracking-tight mb-8 max-w-4xl">
-          Honoring Elders,<br />
-          Embracing Wisdom
+        <h1 className="text-white font-bold text-6xl md:text-7xl lg:text-8xl leading-[1.1] tracking-tight mb-8 max-w-5xl">
+          Empowering the<br />
+          Elderly Generation
         </h1>
 
-        <p className="text-white/90 text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
-          Dedicated to providing specialized care, health support, and a vibrant community for our beloved senior generation.
+        <p className="text-white/90 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
+          At Golden Years Care Foundation, we believe every senior deserves a life of respect, 
+          comfort, and compassion. We provide care, shelter, and emotional support to elderly 
+          individuals who need it the most.
+          <br /><br />
+          Be a part of their journey.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <Link
-            href="/login"
+            href="/donate"
             className="group bg-[#00b749] hover:bg-[#00a040] text-white px-8 py-4 rounded-full text-base font-semibold transition-all flex items-center gap-2 w-full sm:w-auto justify-center"
           >
-            Login Now
+            Donate Now
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
 
           <Link
-            href="/register"
+            href="/contact"
             className="group bg-white hover:bg-white/90 text-black px-8 py-4 rounded-full text-base font-semibold transition-all flex items-center gap-2 w-full sm:w-auto justify-center border border-black/5"
           >
-            Register Now
+            Become a Volunteer
           </Link>
         </div>
       </div>

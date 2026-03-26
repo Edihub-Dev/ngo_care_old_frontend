@@ -32,31 +32,53 @@ export default function BlogSection() {
     fetchLatest();
   }, []);
 
-  if (latestBlogs.length === 0) return null;
+  const displayBlogs = latestBlogs.length > 0 ? latestBlogs : [
+    {
+      _id: 'default-1',
+      id: 'caring-for-aging-parents',
+      title: 'Caring for Aging Parents: A Complete Guide',
+      category: 'Caregiving',
+      date: new Date().toISOString(),
+      image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80',
+    },
+    {
+      _id: 'default-2',
+      id: 'importance-of-emotional-support',
+      title: 'Importance of Emotional Support for Seniors',
+      category: 'Health',
+      date: new Date().toISOString(),
+      image: 'https://images.unsplash.com/photo-1544122159-4f7db1a700da?auto=format&fit=crop&q=80',
+    },
+    {
+      _id: 'default-3',
+      id: 'healthy-living-tips',
+      title: 'Healthy Living Tips for Elderly',
+      category: 'Wellness',
+      date: new Date().toISOString(),
+      image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&q=80',
+    }
+  ];
 
   return (
     <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-xl">
-            <span className="bg-[#e5f7ed] text-[#00b749] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 inline-block">
-              Latest from Journal
-            </span>
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight text-black">
-              Stories of Impact<br />& Resilience.
+            <h2 className="text-5xl md:text-7xl font-bold tracking-tight text-black leading-tight">
+              Latest Stories<br />& Insights
             </h2>
           </div>
           <Link 
             href="/blog" 
             className="group flex items-center gap-2 text-black font-bold hover:text-[#00b749] transition-colors mb-2"
           >
-            View All Posts
+            Read More Blogs
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {latestBlogs.map((post) => (
+          {displayBlogs.map((post) => (
             <Link key={post._id} href={`/blog/${post.id || post._id}`} className="group flex flex-col gap-4">
               <div className="w-full aspect-video bg-gray-100 rounded-[2.5rem] overflow-hidden relative shadow-sm border border-black/5">
                 <div 
