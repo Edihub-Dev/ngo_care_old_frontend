@@ -252,7 +252,11 @@ export async function authFetch(url: string, options: RequestInit = {}): Promise
     headers['Authorization'] = `Bearer ${token}`;
   }
   
-  const response = await fetch(url, {
+  // Directly point to the backend URL if using environment variables to avoid Next.js proxy 503 errors on Vercel
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
+  const fetchUrl = url.startsWith('/api') && baseUrl ? `${baseUrl}${url}` : url;
+  
+  const response = await fetch(fetchUrl, {
     ...options,
     headers,
   });
