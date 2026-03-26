@@ -256,6 +256,8 @@ export async function authFetch(url: string, options: RequestInit = {}): Promise
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
   const fetchUrl = url.startsWith('/api') && baseUrl ? `${baseUrl}${url}` : url;
   
+  console.log(`[API DEBUG] Requesting: ${fetchUrl} (BaseURL: ${baseUrl || 'not set'})`);
+  
   const response = await fetch(fetchUrl, {
     ...options,
     headers,
