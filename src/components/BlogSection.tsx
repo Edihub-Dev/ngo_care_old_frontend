@@ -39,7 +39,7 @@ export default function BlogSection() {
       title: 'Caring for Aging Parents: A Complete Guide',
       category: 'Caregiving',
       date: new Date().toISOString(),
-      image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80',
+      image: '/assets/blog_caregiving.png',
     },
     {
       _id: 'default-2',
@@ -47,7 +47,7 @@ export default function BlogSection() {
       title: 'Importance of Emotional Support for Seniors',
       category: 'Health',
       date: new Date().toISOString(),
-      image: 'https://images.unsplash.com/photo-1544122159-4f7db1a700da?auto=format&fit=crop&q=80',
+      image: '/assets/blog_emotional.png',
     },
     {
       _id: 'default-3',
@@ -55,7 +55,7 @@ export default function BlogSection() {
       title: 'Healthy Living Tips for Elderly',
       category: 'Wellness',
       date: new Date().toISOString(),
-      image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&q=80',
+      image: '/assets/blog_health.png',
     }
   ];
 

@@ -21,7 +21,7 @@ export default function Ticker() {
   ];
 
   return (
-    <div className="bg-[#00b749] py-6 overflow-hidden select-none">
+    <div className="bg-[#00b749] py-4 overflow-hidden select-none">
       <div className="flex animate-marquee white-space-nowrap">
         <div className="flex gap-12 items-center mx-4">
           {messages.map((msg, i) => (

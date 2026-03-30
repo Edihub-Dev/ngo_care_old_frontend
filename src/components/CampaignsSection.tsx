@@ -6,37 +6,31 @@ const campaigns = [
     id: 'elderly-care-and-shelter',
     title: 'Elderly Care & Shelter',
     description: 'Providing safe homes, food, and daily care for seniors in need.',
-    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&q=80',
+    image: '/assets/hero_happy.png',
   },
   {
     id: 'healthcare-and-medical-aid',
     title: 'Healthcare & Medical Aid',
     description: 'Regular check-ups, nursing care, physiotherapy, and health camps.',
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80',
+    image: '/assets/health_camp.png',
   },
   {
     id: 'emotional-and-spiritual-support',
     title: 'Emotional & Spiritual Support',
     description: 'Creating a sense of belonging through counseling, community, and spiritual programs.',
-    image: 'https://images.unsplash.com/photo-1532186716942-e1925b683bbd?auto=format&fit=crop&q=80',
+    image: '/assets/cause_spiritual.png',
   },
   {
     id: 'education-and-awareness',
     title: 'Education & Awareness',
     description: 'Workshops and programs on health, hygiene, and social responsibility.',
-    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&q=80',
+    image: '/assets/cause_education.png',
   },
   {
     id: 'environment-protection',
     title: 'Environment Protection',
     description: 'Tree plantation, water conservation, and sustainability initiatives.',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80',
-  },
-  {
-    id: 'religious-and-cultural-activities',
-    title: 'Religious & Cultural Activities',
-    description: 'Organizing festivals, discourses, and supporting temples and community spaces.',
-    image: 'https://images.unsplash.com/photo-1532186716942-e1925b683bbd?auto=format&fit=crop&q=80',
+    image: '/assets/environment.png',
   }
 ];
 

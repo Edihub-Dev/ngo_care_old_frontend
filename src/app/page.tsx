@@ -53,6 +53,39 @@ export default function Home() {
 
       <FeaturesSection />
 
+      {/* Testimonials Section */}
+      <section className="bg-gray-50 py-24 px-6 text-center">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center justify-center gap-2 mb-4">
+             <div className="w-2.5 h-2.5 rounded-full bg-[#00b749]" />
+             <span className="text-black/80 font-medium">Testimonials</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-16 leading-tight">
+            Voices of Gratitude
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100 relative">
+              <span className="text-[#00b749] text-6xl absolute top-4 left-6 opacity-20">"</span>
+              <p className="text-gray-600 text-lg mb-6 italic relative z-10 leading-relaxed text-left">
+                "Golden Years Care gave me a home when I had nowhere to go."
+              </p>
+              <div className="text-left font-bold text-gray-900 border-t border-gray-100 pt-4">
+                – Resident
+              </div>
+            </div>
+            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100 relative">
+              <span className="text-[#00b749] text-6xl absolute top-4 left-6 opacity-20">"</span>
+              <p className="text-gray-600 text-lg mb-6 italic relative z-10 leading-relaxed text-left">
+                "Their work truly brings hope to the elderly."
+              </p>
+              <div className="text-left font-bold text-gray-900 border-t border-gray-100 pt-4">
+                – Volunteer
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <BlogSection />
 
 

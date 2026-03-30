@@ -5,28 +5,28 @@ const stats = [
     title: 'Seniors Supported',
     value: '500+',
     subtitle: 'Providing dignity and companionship.',
-    image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80',
+    image: '/assets/hero_happy.png',
   },
   {
     id: 2,
     title: 'Health Camps Organized',
     value: '50+',
     subtitle: 'Specialized geriatric medical care.',
-    image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&q=80',
+    image: '/assets/health_camp.png',
   },
   {
     id: 3,
     title: 'Lives Impacted',
     value: '1000+',
     subtitle: 'Directly improving quality of life.',
-    image: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&q=80',
+    image: '/assets/food_shelter.png',
   },
   {
     id: 4,
     title: 'Community Programs',
     value: '20+',
     subtitle: 'Fostering engagement and support.',
-    image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80',
+    image: '/assets/day_care.png',
   }
 ];
 

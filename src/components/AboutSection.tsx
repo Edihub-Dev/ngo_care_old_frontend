@@ -31,7 +31,7 @@ export default function AboutSection() {
              </Link>
           </div>
           <div className="flex-1 w-full">
-            <div className="h-[400px] lg:h-[450px] w-full bg-cover bg-center rounded-3xl shadow-xl" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80")' }} />
+            <div className="h-[400px] lg:h-[450px] w-full bg-cover bg-center rounded-3xl shadow-xl" style={{ backgroundImage: 'url("/assets/day_care.png")' }} />
           </div>
         </div>
 
