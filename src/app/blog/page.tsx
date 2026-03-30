@@ -38,18 +38,31 @@ export default function BlogPage() {
   return (
     <div className="bg-white min-h-screen text-black">
       <Navigation />
-      <div className="pt-24 max-w-7xl mx-auto px-6 pt-12">
-        <div className="text-center mb-16">
-           <span className="bg-[#e5f7ed] text-[#00b749] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 inline-block">
+      
+      {/* Full-Screen Hero Section for Blog */}
+      <div className="relative h-[100dvh] w-full flex items-center justify-center text-center overflow-hidden mb-16">
+        {/* Background Image with Overlay */}
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url("/assets/cause_education.png")' }}
+        >
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+
+        <div className="max-w-4xl mx-auto px-6 relative z-10">
+           <span className="bg-[#00b749] text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 inline-block shadow-lg">
              Our Journal
            </span>
-           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 text-white leading-tight">
              Our Blog
            </h1>
-           <p className="text-xl text-black/60 max-w-2xl mx-auto">
+           <p className="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
              Explore stories, insights, and updates from Golden Years Care Foundation.
            </p>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 mt-24">
 
         {loading ? (
           <div className="flex justify-center py-24">

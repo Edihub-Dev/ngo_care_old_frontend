@@ -19,11 +19,9 @@ export default function ClientLayout({
   return (
     <>
       {!isAuthPage && <Navigation />}
-      <div className={isAuthPage ? '' : 'pt-24'}>
-        <main>
-          {children}
-        </main>
-      </div>
+      <main>
+        {children}
+      </main>
       {!isAuthPage && <Footer />}
     </>
   );

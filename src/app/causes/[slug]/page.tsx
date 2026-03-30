@@ -3,41 +3,50 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight, Heart, Sun, BookOpen, Leaf } from 'lucide-react';
 
 const causeData: Record<string, { title: string, category: string, image: string, description: string, icon: ComponentType<{ className?: string }>, raised: number, goal: number }> = {
-  'senior-care-and-welfare': {
-    title: 'Senior Care & Welfare',
+  'elderly-care-and-shelter': {
+    title: 'Elderly Care & Shelter',
     category: 'A. OLD AGE CARE & WELFARE',
-    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&q=80',
-    description: 'Providing nursing care, physiotherapy, medical help, and emotional support to elderly persons who are living alone or are neglected. We provide care, shelter, food, medical assistance and emotional support.',
+    image: '/assets/Program_1.avif',
+    description: 'Providing safe homes, food, and daily care for seniors in need. We provide care, shelter, medical assistance and emotional support.',
     icon: Heart,
     raised: 40000,
     goal: 65200,
   },
-  'religious-and-cultural-objects': {
-    title: 'Religious & Cultural Objects',
-    category: 'B. RELIGIOUS OBJECTS',
-    image: 'https://images.unsplash.com/photo-1532186716942-e1925b683bbd?auto=format&fit=crop&q=80',
-    description: 'Promoting moral values through spiritual programs, discourses, and the development of Temples, Dharamshalas and Prayer Halls.',
-    icon: Sun,
+  'healthcare-and-medical-aid': {
+    title: 'Healthcare & Medical Aid',
+    category: 'B. HEALTHCARE',
+    image: '/assets/program_2.avif',
+    description: 'Regular check-ups, nursing care, physiotherapy, and health camps. Providing essential specialized geriatric medical care.',
+    icon: Heart,
     raised: 52000,
     goal: 75200,
   },
-  'educational-and-social-awareness': {
-    title: 'Educational & Social Awareness',
-    category: 'C. EDUCATIONAL & SOCIAL AWARENESS',
-    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&q=80',
-    description: 'Conducting awareness programs on health and hygiene, and running educational and skill development institutions and programs.',
-    icon: BookOpen,
+  'emotional-and-spiritual-support': {
+    title: 'Emotional & Spiritual Support',
+    category: 'C. EMOTIONAL & SPIRITUAL',
+    image: '/assets/cause_spiritual.png',
+    description: 'Creating a sense of belonging through counseling, community, and spiritual programs.',
+    icon: Sun,
     raised: 80000,
     goal: 85000,
   },
-  'environment-protection': {
-    title: 'Environment Protection',
-    category: 'D. ENVIRONMENT PROTECTION',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80',
-    description: 'Promoting tree plantation drives, water conservation, pond development and sustainable living to protect our natural resources.',
-    icon: Leaf,
+  'education-and-awareness': {
+    title: 'Education & Awareness',
+    category: 'D. EDUCATIONAL & SOCIAL AWARENESS',
+    image: '/assets/cause_education.png',
+    description: 'Workshops and programs on health, hygiene, and social responsibility.',
+    icon: BookOpen,
     raised: 15000,
     goal: 50000,
+  },
+  'environment-protection': {
+    title: 'Environment Protection',
+    category: 'E. ENVIRONMENT PROTECTION',
+    image: '/assets/Together_images.avif',
+    description: 'Tree plantation, water conservation, and sustainability initiatives to protect our natural resources.',
+    icon: Leaf,
+    raised: 12000,
+    goal: 40000,
   }
 };
 
@@ -46,7 +55,7 @@ export default async function CauseDetail({ params }: { params: Promise<{ slug: 
   const cause = causeData[slug] || {
     title: slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
     category: 'Mission',
-    image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80',
+    image: '/assets/Program_1.avif',
     description: 'Connecting communities with essential medical, food, and housing relief. We believe in providing the tools and resources necessary for long-term growth and resilience.',
     icon: Heart,
     raised: 0,
@@ -56,8 +65,8 @@ export default async function CauseDetail({ params }: { params: Promise<{ slug: 
   const progress = Math.min((cause.raised / cause.goal) * 100, 100);
 
   return (
-    <div className="pt-24 bg-[#050505] min-h-screen text-white pb-24">
-      <div className="max-w-4xl mx-auto px-6 pt-12">
+    <div className="bg-[#050505] min-h-screen text-white pb-24">
+      <div className="max-w-4xl mx-auto px-6 pt-48">
         <Link href="/causes" className="inline-flex items-center text-white/50 hover:text-white transition-colors mb-12">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Missions

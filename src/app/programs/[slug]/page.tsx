@@ -3,33 +3,33 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight, Heart, Sun, BookOpen, Leaf } from 'lucide-react';
 
 const programData: Record<string, { title: string, category: string, image: string, description: string, icon: ComponentType<{ className?: string }> }> = {
-  'old-age-care-and-welfare': {
-    title: 'Senior Care & Welfare',
-    category: 'A. OLD AGE CARE & WELFARE',
-    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&q=80',
-    description: 'Providing nursing care, physiotherapy, medical help, and emotional support to elderly persons who are living alone or are neglected. We establish and maintain old age homes, day care centers, and rehabilitation centers.',
+  'old-age-homes': {
+    title: 'Old Age Homes',
+    category: 'Residential Care',
+    image: '/assets/hero_happy.png',
+    description: 'Providing long-term residential care with dignity and safety. We establish and maintain old age homes and rehabilitation centers.',
     icon: Heart,
   },
-  'religious-and-cultural-objects': {
-    title: 'Religious & Cultural Objects',
-    category: 'B. RELIGIOUS OBJECTS',
-    image: 'https://images.unsplash.com/photo-1532186716942-e1925b683bbd?auto=format&fit=crop&q=80',
-    description: 'Promoting moral values through spiritual programs, discourses, and the development of Temples, Dharamshalas and Prayer Halls. We celebrate religious festivals for public welfare and unity.',
+  'day-care-centers': {
+    title: 'Day Care Centers',
+    category: 'Daily Care',
+    image: '/assets/feature_day_care.png',
+    description: 'A place for seniors to engage, socialize, and receive care during the day. We organize activities and monitor wellbeing.',
     icon: Sun,
   },
-  'educational-and-social-awareness': {
-    title: 'Educational & Social Awareness',
-    category: 'C. EDUCATIONAL & SOCIAL AWARENESS',
-    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&q=80',
-    description: 'Conducting awareness programs on health and hygiene, and running educational and skill development institutions and programs. We organize seminars, workshops, and specialized training programs.',
-    icon: BookOpen,
+  'healthcare-services': {
+    title: 'Healthcare Services',
+    category: 'Medical Support',
+    image: '/assets/health_camp.png',
+    description: 'Medical support including check-ups, physiotherapy, and nursing. We regularly arrange free health camps and supply ongoing medical aid.',
+    icon: Heart,
   },
-  'environment-protection-and-awareness': {
-    title: 'Environment Protection',
-    category: 'D. ENVIRONMENT PROTECTION',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80',
-    description: 'Promoting tree plantation drives, water conservation, pond development and sustainable living to protect our natural resources. We focus on preservation and improvement of the natural environment.',
-    icon: Leaf,
+  'food-shelter-support': {
+    title: 'Food & Shelter Support',
+    category: 'Spiritual & Aid',
+    image: '/assets/program_food.png',
+    description: 'Helping elderly individuals with basic necessities, proper nutrition, spiritual discourses and continuous care.',
+    icon: Heart,
   }
 };
 
@@ -38,14 +38,14 @@ export default async function ProgramDetail({ params }: { params: Promise<{ slug
   const program = programData[slug] || {
     title: slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
     category: 'Initiative',
-    image: 'https://images.unsplash.com/photo-1593113589914-075568e0ea00?auto=format&fit=crop&q=80',
+    image: '/assets/hero_happy.png',
     description: 'Providing structured, lasting interventions to uplift communities and forge pathways of self-sufficiency.',
     icon: Heart,
   };
 
   return (
-    <div className="pt-24 bg-white min-h-screen text-black pb-24">
-      <div className="max-w-4xl mx-auto px-6 pt-12">
+    <div className="bg-white min-h-screen text-black pb-24">
+      <div className="max-w-4xl mx-auto px-6 pt-48">
         <Link href="/programs" className="inline-flex items-center text-black/50 hover:text-black transition-colors mb-12 font-medium">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Programs
