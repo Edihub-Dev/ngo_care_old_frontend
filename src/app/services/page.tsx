@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { 
-  ArrowLeftIcon, 
-  HeartIcon, 
-  ShieldCheckIcon, 
-  UsersIcon, 
-  CalendarIcon, 
-  MapPinIcon, 
+import {
+  ArrowLeftIcon,
+  HeartIcon,
+  ShieldCheckIcon,
+  UsersIcon,
+  CalendarIcon,
+  MapPinIcon,
   PhoneIcon,
   ChatBubbleLeftRightIcon,
   InformationCircleIcon,
@@ -55,7 +55,7 @@ export default function Services() {
 
   const fetchStaffForService = async (serviceId: string) => {
     if (serviceStaff[serviceId]) return;
-    
+
     try {
       setLoadingStaff(serviceId);
       const response = await apiClient.get<any>(`/api/services/staff/${serviceId}`);
@@ -95,7 +95,7 @@ export default function Services() {
           urgency: 'medium',
           requestedDate: new Date().toISOString()
         });
-        
+
         if (response.success) {
           alert('Request sent! Our team will contact you shortly.');
         }
@@ -130,15 +130,12 @@ export default function Services() {
       {/* Header */}
       <div className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <Link href="/" className="inline-flex items-center text-blue-600 font-medium">
+          <div className="relative flex items-center justify-center h-20">
+            <Link href="/dashboard" className="absolute left-0 inline-flex items-center text-gray-600 hover:text-blue-600 font-medium">
               <ArrowLeftIcon className="h-5 w-5 mr-1" />
-              Home
+              back
             </Link>
-            <h1 className="text-xl font-bold">Browse Services</h1>
-            <Link href="/dashboard">
-              <Button size="sm" variant="outline" className="rounded-full">My Dashboard</Button>
-            </Link>
+            <h1 className="text-xl font-bold text-gray-900">Browse Services</h1>
           </div>
         </div>
       </div>
@@ -153,10 +150,10 @@ export default function Services() {
           {services.map((service) => {
             const Icon = getServiceIcon(service.id);
             const isExpanded = expandedService === service.id;
-            
+
             return (
               <div key={service.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300">
-                <div 
+                <div
                   className={cn(
                     "p-6 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors",
                     isExpanded && "bg-blue-50/50"
@@ -185,7 +182,7 @@ export default function Services() {
                     >
                       <div className="p-6">
                         <p className="text-gray-600 mb-8 leading-relaxed">{service.description}</p>
-                        
+
                         <div className="mb-6 flex items-center justify-between">
                           <h4 className="font-bold text-gray-900 flex items-center">
                             <InformationCircleIcon className="h-5 w-5 mr-2 text-blue-500" />
@@ -216,14 +213,14 @@ export default function Services() {
                                     </div>
                                   </div>
                                   <div className="flex space-x-2">
-                                    <button 
+                                    <button
                                       onClick={() => handleMessageRequest(staff.role, staff.name)}
                                       className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-blue-100"
                                       title="Send Message"
                                     >
                                       <ChatBubbleLeftRightIcon className="h-5 w-5" />
                                     </button>
-                                    <button 
+                                    <button
                                       onClick={() => handleMessageRequest(staff.role, staff.name)}
                                       className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors border border-green-100"
                                       title="Call"
@@ -248,7 +245,7 @@ export default function Services() {
                             </Button>
                           </Link>
                           <Button variant="outline" className="flex-1 rounded-xl" onClick={() => handleMessageRequest(service.id)}>
-                             I have a question
+                            I have a question
                           </Button>
                         </div>
                       </div>

@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  ArrowLeftIcon, 
-  DocumentTextIcon, 
+import {
+  ArrowLeftIcon,
+  DocumentTextIcon,
   ClockIcon,
   CheckCircleIcon,
   XCircleIcon,
@@ -28,7 +28,7 @@ interface ServiceRequest {
 export default function RequestHistory() {
   const router = useRouter();
   const authManager = AuthManager.getInstance();
-  
+
   const [requests, setRequests] = useState<ServiceRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -82,7 +82,7 @@ export default function RequestHistory() {
         <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
           <button onClick={() => router.push('/dashboard')} className="text-gray-600 hover:text-blue-600 flex items-center">
             <ArrowLeftIcon className="h-5 w-5 mr-1" />
-            Dashboard
+            Back
           </button>
           <h1 className="text-xl font-bold text-gray-900">Request History</h1>
           <div className="w-10"></div>
@@ -108,8 +108,8 @@ export default function RequestHistory() {
           )}
 
           {requests.map((request) => (
-            <div 
-              key={request._id} 
+            <div
+              key={request._id}
               className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:border-blue-200 transition-all cursor-pointer group"
               onClick={() => router.push(`/dashboard/requests/${request._id}`)}
             >
@@ -134,12 +134,12 @@ export default function RequestHistory() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className={cn(
                   'flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border text-sm font-semibold capitalize',
                   request.status === 'completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
-                  request.status === 'cancelled' ? 'bg-red-50 text-red-700 border-red-100' :
-                  'bg-blue-50 text-blue-700 border-blue-100'
+                    request.status === 'cancelled' ? 'bg-red-50 text-red-700 border-red-100' :
+                      'bg-blue-50 text-blue-700 border-blue-100'
                 )}>
                   {getStatusIcon(request.status)}
                   <span>{request.status.replace('_', ' ')}</span>
