@@ -14,35 +14,33 @@ export default function HeroSection() {
       </div>
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-start justify-center">
-          <p className="text-[#00b749] font-bold text-base md:text-lg mb-3 tracking-wider uppercase">
+          <p className="text-[#00b749] font-black text-xs sm:text-sm md:text-lg mb-3 tracking-widest uppercase bg-green-500/10 px-4 py-1.5 rounded-full backdrop-blur-sm self-start">
           Give Love. Give Care. Give Dignity.
         </p>
 
-        <h1 className="text-white font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight mb-6 max-w-4xl">
-          Empowering the<br />
-          Elderly Generation
+        <h1 className="text-white font-black text-4xl sm:text-5xl md:text-6xl lg:text-8xl leading-[1.05] tracking-tight mb-8 max-w-5xl">
+          Empowering the<br className="hidden sm:block" />
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-white via-white/80 to-white/50">Elderly Generation</span>
         </h1>
 
-        <p className="text-white/90 text-base md:text-lg max-w-2xl mb-8 leading-relaxed">
+        <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-2xl mb-10 leading-relaxed font-medium">
           At Golden Years Care Foundation, we believe every senior deserves a life of respect, 
           comfort, and compassion. We provide care, shelter, and emotional support to elderly 
           individuals who need it the most.
-          <br /><br />
-          Be a part of their journey.
         </p>
 
-        <div className="flex flex-row items-center gap-2 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <Link
             href="/donate"
-            className="group bg-[#00b749] hover:bg-[#00a040] text-white px-3 md:px-7 py-2.5 md:py-3 rounded-full text-[11px] xs:text-xs md:text-base font-semibold transition-all flex items-center gap-1 md:gap-2 flex-1 sm:flex-none justify-center whitespace-nowrap"
+            className="group bg-[#00b749] hover:bg-[#00a040] text-white px-8 py-4 rounded-full text-sm md:text-base font-bold transition-all flex items-center gap-3 w-full sm:w-auto justify-center shadow-xl shadow-green-600/30 active:scale-95"
           >
             Donate Now
-            <ArrowRight className="w-3.5 h-3.5 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
 
           <Link
             href="/contact"
-            className="group bg-white hover:bg-white/90 text-black px-3 md:px-7 py-2.5 md:py-3 rounded-full text-[11px] xs:text-xs md:text-base font-semibold transition-all flex items-center gap-1 md:gap-2 flex-1 sm:flex-none justify-center border border-black/5 whitespace-nowrap"
+            className="group bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-full text-sm md:text-base font-bold transition-all flex items-center gap-3 w-full sm:w-auto justify-center active:scale-95"
           >
             Become a Volunteer
           </Link>

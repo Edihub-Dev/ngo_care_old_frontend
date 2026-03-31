@@ -110,14 +110,6 @@ export const userApi = {
   updateProfile: (data: Record<string, unknown>) => apiClient.put('/api/users/profile', data),
 };
 
-export const adminApi = {
-  getDashboard: () => apiClient.get('/api/admin/dashboard'),
-  getUsers: () => apiClient.get('/api/admin/users'),
-  getRequests: () => apiClient.get('/api/admin/requests'),
-  updateRequestStatus: (id: string, status: string) => 
-    apiClient.put(`/api/admin/requests/${id}`, { status }),
-};
-
 export const emergencyApi = {
   triggerSOS: (location: { lat: number; lng: number }, description?: string) =>
     apiClient.post('/api/emergency/sos', { location, description }),

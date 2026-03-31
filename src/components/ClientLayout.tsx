@@ -10,19 +10,23 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isAuthPage = pathname === '/login' || 
-                     pathname === '/register' || 
-                     pathname === '/forgot-password' || 
-                     pathname === '/verify-otp' || 
-                     pathname === '/reset-password';
+  
+  // Routes that should NOT show the general Navigation and Footer
+  const isNoNavPage = pathname === '/login' || 
+                      pathname === '/register' || 
+                      pathname === '/forgot-password' || 
+                      pathname === '/verify-otp' || 
+                      pathname === '/reset-password' ||
+                      pathname.startsWith('/dashboard') ||
+                      pathname.startsWith('/services');
 
   return (
     <>
-      {!isAuthPage && <Navigation />}
+      {!isNoNavPage && <Navigation />}
       <main>
         {children}
       </main>
-      {!isAuthPage && <Footer />}
+      {!isNoNavPage && <Footer />}
     </>
   );
 }
