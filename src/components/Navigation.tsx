@@ -7,13 +7,16 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiClient } from '@/lib/api';
 import { AuthManager } from '@/lib/auth';
+import { useSettings } from '@/context/SettingsContext';
 
 export default function Navigation() {
+  const { settings } = useSettings();
+  const orgName = settings.orgName;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [orgName, setOrgName] = useState('Golden Years Care Foundation');
   const [auth, setAuth] = useState({ isAuthenticated: false, user: null as any, token: null as any });
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
+
 
   // Close menu when scrolling
   useEffect(() => {
@@ -26,19 +29,6 @@ export default function Navigation() {
 
   useEffect(() => {
     setMounted(true);
-    
-    // Fetch org name once on mount
-    const fetchOrgName = async () => {
-      try {
-        const res = await apiClient.get<any>('/api/public/settings');
-        if (res.success && res.data?.settings?.orgName) {
-          setOrgName(res.data.settings.orgName);
-        }
-      } catch (err) {
-        // Silently fail
-      }
-    };
-    fetchOrgName();
   }, []); // Run ONLY once on mount
 
   useEffect(() => {
@@ -90,6 +80,7 @@ export default function Navigation() {
             <Link href="/about" className="text-sm font-bold text-black/60 hover:text-black transition-colors">About</Link>
             <Link href="/causes" className="text-sm font-bold text-black/60 hover:text-black transition-colors">Causes</Link>
             <Link href="/programs" className="text-sm font-bold text-black/60 hover:text-black transition-colors">Programs</Link>
+            <Link href="/governance" className="text-sm font-bold text-black/60 hover:text-black transition-colors">Governance</Link>
             <Link href="/blog" className="text-sm font-bold text-black/60 hover:text-black transition-colors">Blog</Link>
             <Link href="/contact" className="text-sm font-bold text-black/60 hover:text-black transition-colors">Contact</Link>
           </div>
@@ -148,6 +139,12 @@ export default function Navigation() {
                     </Link>
                     <Link href="/causes" onClick={closeMenu} className="p-4 bg-gray-50 rounded-2xl flex flex-col items-center justify-center gap-2">
                         <span className="text-sm font-bold text-black/70">Causes</span>
+                    </Link>
+                    <Link href="/programs" onClick={closeMenu} className="p-4 bg-gray-50 rounded-2xl flex flex-col items-center justify-center gap-2">
+                        <span className="text-sm font-bold text-black/70">Programs</span>
+                    </Link>
+                    <Link href="/governance" onClick={closeMenu} className="p-4 bg-gray-50 rounded-2xl flex flex-col items-center justify-center gap-2">
+                        <span className="text-sm font-bold text-black/70">Governance</span>
                     </Link>
                     <Link href="/blog" onClick={closeMenu} className="p-4 bg-gray-50 rounded-2xl flex flex-col items-center justify-center gap-2">
                         <span className="text-sm font-bold text-black/70">Blog</span>

@@ -53,13 +53,14 @@ export class ApiClient {
         message: data.message as string | undefined
       };
     } catch (error) {
-      console.error('API Request Error:', error);
+      const isNetworkError = error instanceof TypeError && error.message.includes('fetch');
+      console.error(`[API CLIENT ERROR] ${url}:`, error);
       
       return {
         success: false,
         error: {
           message: error instanceof Error ? error.message : 'An unexpected error occurred',
-          code: 'NETWORK_ERROR'
+          code: isNetworkError ? 'NETWORK_ERROR' : 'API_ERROR'
         }
       };
     }

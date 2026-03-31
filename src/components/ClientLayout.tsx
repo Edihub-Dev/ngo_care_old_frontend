@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import Navigation from "./Navigation";
 import Footer from "./Footer";
+import { SettingsProvider } from '@/context/SettingsContext';
 
 export default function ClientLayout({
   children,
@@ -21,12 +22,12 @@ export default function ClientLayout({
                       pathname.startsWith('/services');
 
   return (
-    <>
+    <SettingsProvider>
       {!isNoNavPage && <Navigation />}
       <main>
         {children}
       </main>
       {!isNoNavPage && <Footer />}
-    </>
+    </SettingsProvider>
   );
 }

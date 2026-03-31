@@ -2,24 +2,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { apiClient } from '@/lib/api';
+import { useSettings } from '@/context/SettingsContext';
 
 export default function Footer() {
-  const [orgName, setOrgName] = useState('Golden Years Care Foundation');
-
-  useEffect(() => {
-    const fetchOrgName = async () => {
-      try {
-        const res = await apiClient.get<any>('/api/public/settings');
-        if (res.success && res.data?.settings?.orgName) {
-          setOrgName(res.data.settings.orgName);
-        }
-      } catch (err) {
-        // Silently fail, use default
-      }
-    };
-    fetchOrgName();
-  }, []);
+  const { settings } = useSettings();
+  const orgName = settings.orgName;
 
   return (
     <footer className="bg-black pt-24 pb-12 overflow-hidden relative" id="contact">
@@ -49,8 +36,8 @@ export default function Footer() {
         </div>
 
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 relative z-10">
-          <div className="lg:col-span-1">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 mb-16 relative z-10">
+          <div className="col-span-2 lg:col-span-1">
             <Link href="/" className="flex items-center space-x-2 mb-6 bg-white/90 p-3 rounded-xl max-w-fit">
               <img src="/assets/Logo.png" alt={orgName} className="h-12 md:h-14 w-auto object-contain" />
             </Link>
@@ -104,7 +91,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <h4 className="text-white font-semibold mb-6">Stay Updated</h4>
             <p className="text-white/60 text-sm mb-4">
               Subscribe to our newsletter to receive the latest updates.

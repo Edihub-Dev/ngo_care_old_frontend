@@ -1,15 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { apiClient } from '@/lib/api';
+import { useSettings } from '@/context/SettingsContext';
 
 export default function ContactPage() {
-  const [platformInfo, setPlatformInfo] = useState<any>({
-    orgName: 'Golden Years Care Foundation',
-    contactEmail: 'contact@goldenyears.foundation',
-    supportPhone: '+91 1234567890'
-  });
+  const { settings: platformInfo } = useSettings();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -42,20 +39,6 @@ export default function ContactPage() {
     }
   };
 
-  useEffect(() => {
-    fetchPlatformInfo();
-  }, []);
-
-  const fetchPlatformInfo = async () => {
-    try {
-      const res = await apiClient.get<any>('/api/public/settings');
-      if (res.success && res.data?.settings) {
-        setPlatformInfo(res.data.settings);
-      }
-    } catch (err) {
-      console.error('Failed to load contact info:', err);
-    }
-  };
 
   return (
     <div className="bg-[#050505] min-h-screen text-white pb-24">

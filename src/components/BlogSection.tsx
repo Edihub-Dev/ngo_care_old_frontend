@@ -62,9 +62,9 @@ export default function BlogSection() {
   return (
     <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-6">
           <div className="max-w-xl">
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight text-black leading-tight">
+            <h2 className="text-5xl md:text-7xl font-bold tracking-tight text-black leading-tight text-center md:text-left">
               Latest Stories<br />& Insights
             </h2>
           </div>
@@ -89,11 +89,11 @@ export default function BlogSection() {
                   {post.category}
                 </div>
               </div>
-              <div className="flex flex-col flex-1 mt-4 px-2">
+              <div className="flex flex-col items-center md:items-start text-center md:text-left flex-1 mt-4 px-2">
                  <span className="text-black/40 text-sm font-bold uppercase tracking-widest mb-3">
                    {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
                  </span>
-                 <h2 className="text-2xl font-bold tracking-tight group-hover:text-[#00b749] transition-colors line-clamp-2 pr-4 leading-tight mb-4 text-black">
+                 <h2 className="text-2xl font-bold tracking-tight group-hover:text-[#00b749] transition-colors line-clamp-2 md:pr-4 leading-tight mb-4 text-black">
                    {post.title}
                  </h2>
               </div>

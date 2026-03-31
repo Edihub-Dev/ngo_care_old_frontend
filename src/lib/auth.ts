@@ -252,21 +252,31 @@ export async function authFetch(url: string, options: RequestInit = {}): Promise
     headers['Authorization'] = `Bearer ${token}`;
   }
   
-  // Directly point to the backend URL if using environment variables to avoid Next.js proxy 503 errors on Vercel
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
-  const fetchUrl = url.startsWith('/api') && baseUrl ? `${baseUrl}${url}` : url;
+  const baseUrl = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/$/, '');
+  let fetchUrl = url;
+  
+  if (url.startsWith('/api') && baseUrl) {
+    const cleanUrl = url.startsWith('/') ? url : `/${url}`;
+    fetchUrl = `${baseUrl}${cleanUrl}`;
+  }
   
   console.log(`[API DEBUG] Requesting: ${fetchUrl} (BaseURL: ${baseUrl || 'not set'})`);
   
-  const response = await fetch(fetchUrl, {
-    ...options,
-    headers,
-  });
-  
-  // Handle token expiration
-  if (response.status === 401) {
-    authManager.logout();
+  try {
+    const response = await fetch(fetchUrl, {
+      ...options,
+      headers,
+    });
+    
+    // Handle token expiration
+    if (response.status === 401) {
+      authManager.logout();
+    }
+    
+    return response;
+  } catch (error) {
+    console.error(`[API FETCH ERROR] Failed to fetch ${fetchUrl}:`, error);
+    // Rethrow to allow the caller to handle it, but now we have better logging
+    throw error;
   }
-  
-  return response;
 }
