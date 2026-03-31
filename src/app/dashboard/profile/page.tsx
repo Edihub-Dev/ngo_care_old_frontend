@@ -146,7 +146,7 @@ export default function EditProfile() {
           <div className="flex items-center space-x-2">
             {authManager.getUser()?.role === 'admin' && (
               <a 
-                href="http://localhost:3001/admin" 
+                href={`${process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3001'}/admin`} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center shadow-lg shadow-blue-600/20"
