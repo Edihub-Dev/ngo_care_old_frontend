@@ -52,7 +52,7 @@ export default function ContactPage() {
         </div>
 
         <div className="max-w-4xl mx-auto px-6 relative z-10">
-          <span className="bg-[#00b749]/20 text-[#00b749] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 inline-block border border-[#00b749]/30">
+          <span className="bg-[#00b749] text-white  px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 inline-block border border-[#00b749]/30">
             Reach Out
           </span>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight text-white">
@@ -73,7 +73,7 @@ export default function ContactPage() {
                 <div className="w-16 h-16 bg-[#00b749] rounded-full flex items-center justify-center mx-auto mb-4 italic text-2xl font-black">✓</div>
                 <h4 className="text-2xl font-bold mb-2">Message Sent!</h4>
                 <p className="text-white/60 mb-6">Thank you for reaching out. Our team will get back to you shortly.</p>
-                <button 
+                <button
                   onClick={() => setSuccess(false)}
                   className="bg-white/10 hover:bg-white/20 px-6 py-2 rounded-full font-bold transition-all text-sm"
                 >
@@ -85,59 +85,59 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 gap-6">
                   <div>
                     <label className="block text-white/60 text-sm mb-2 font-medium">Name</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       name="name"
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 placeholder-white/30 text-white focus:outline-none focus:border-[#00b749] transition-colors" 
-                      placeholder="Full Name" 
+                      className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 placeholder-white/30 text-white focus:outline-none focus:border-[#00b749] transition-colors"
+                      placeholder="Full Name"
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-white/60 text-sm mb-2 font-medium">Email</label>
-                    <input 
-                      type="email" 
+                    <input
+                      type="email"
                       name="email"
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 placeholder-white/30 text-white focus:outline-none focus:border-[#00b749] transition-colors" 
-                      placeholder="contact@example.com" 
+                      className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 placeholder-white/30 text-white focus:outline-none focus:border-[#00b749] transition-colors"
+                      placeholder="contact@example.com"
                     />
                   </div>
                   <div>
                     <label className="block text-white/60 text-sm mb-2 font-medium">Phone</label>
-                    <input 
-                      type="tel" 
+                    <input
+                      type="tel"
                       name="phone"
                       required
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 placeholder-white/30 text-white focus:outline-none focus:border-[#00b749] transition-colors" 
-                      placeholder="+91 00000 00000" 
+                      className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 placeholder-white/30 text-white focus:outline-none focus:border-[#00b749] transition-colors"
+                      placeholder="+91 00000 00000"
                     />
                   </div>
                 </div>
                 <div>
                   <label className="block text-white/60 text-sm mb-2 font-medium">Message</label>
-                  <textarea 
+                  <textarea
                     name="message"
                     required
                     value={formData.message}
                     onChange={handleChange}
-                    rows={5} 
-                    className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 placeholder-white/30 text-white focus:outline-none focus:border-[#00b749] transition-colors resize-none" 
-                    placeholder="How can we help?" 
+                    rows={5}
+                    className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 placeholder-white/30 text-white focus:outline-none focus:border-[#00b749] transition-colors resize-none"
+                    placeholder="How can we help?"
                   />
                 </div>
                 <div className="pt-4 border-t border-white/10 mt-6">
                   <h4 className="text-xl font-bold text-white mb-2">Make a Difference Today</h4>
                   <p className="text-white/60 text-sm mb-4">Your support can bring comfort and dignity to someone’s life.</p>
-                  <button 
+                  <button
                     disabled={loading}
                     className="w-full bg-[#00b749] hover:bg-[#00a040] text-white font-bold py-4 rounded-xl transition-colors shadow-sm text-lg disabled:opacity-50"
                   >

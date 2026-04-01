@@ -51,7 +51,7 @@ export class AuthManager {
       if (!this.isValidToken(token)) {
         throw new Error('Invalid token format');
       }
-      
+
       // Store token with expiration check
       const tokenData = this.parseToken(token);
       if (tokenData.exp && tokenData.exp * 1000 < Date.now()) {
@@ -130,7 +130,7 @@ export class AuthManager {
   getAuthState(): AuthState {
     const token = this.getToken();
     const user = this.getUser();
-    
+
     return {
       user,
       token,
@@ -178,7 +178,7 @@ export class AuthManager {
   // Route protection utility
   requireAuth(): AuthState {
     const authState = this.getAuthState();
-    
+
     if (!authState.isAuthenticated) {
       if (this.router) {
         this.router.push('/login');
@@ -188,14 +188,14 @@ export class AuthManager {
         }
       }
     }
-    
+
     return authState;
   }
 
   // Admin route protection
   requireAdmin(): AuthState {
     const authState = this.requireAuth();
-    
+
     if (authState.user?.role !== 'admin') {
       if (this.router) {
         this.router.push('/dashboard');
@@ -205,7 +205,7 @@ export class AuthManager {
         }
       }
     }
-    
+
     return authState;
   }
 
@@ -226,15 +226,15 @@ export function useAuth() {
 export function getAuthHeaders(): Record<string, string> {
   const authManager = AuthManager.getInstance();
   const token = authManager.getToken();
-  
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
-  
+
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
-  
+
   return headers;
 }
 
@@ -242,37 +242,37 @@ export function getAuthHeaders(): Record<string, string> {
 export async function authFetch(url: string, options: RequestInit = {}): Promise<Response> {
   const authManager = AuthManager.getInstance();
   const token = authManager.getToken();
-  
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...options.headers as Record<string, string>,
   };
-  
+
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
-  
+
   const baseUrl = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/$/, '');
   let fetchUrl = url;
-  
+
   if (url.startsWith('/api') && baseUrl) {
     const cleanUrl = url.startsWith('/') ? url : `/${url}`;
     fetchUrl = `${baseUrl}${cleanUrl}`;
   }
-  
+
   console.log(`[API DEBUG] Requesting: ${fetchUrl} (BaseURL: ${baseUrl || 'not set'})`);
-  
+
   try {
     const response = await fetch(fetchUrl, {
       ...options,
       headers,
     });
-    
+
     // Handle token expiration
     if (response.status === 401) {
       authManager.logout();
     }
-    
+
     return response;
   } catch (error) {
     console.error(`[API FETCH ERROR] Failed to fetch ${fetchUrl}:`, error);

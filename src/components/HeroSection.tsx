@@ -13,8 +13,8 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-start justify-center">
-          <p className="text-[#00b749] font-black text-xs sm:text-sm md:text-lg mb-3 tracking-widest uppercase bg-green-500/10 px-4 py-1.5 rounded-full backdrop-blur-sm self-start">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-start justify-center">
+        <p className="text-[#00b749] font-black text-xs sm:text-sm md:text-lg mb-3 tracking-widest uppercase bg-green-500/10 px-4 py-1.5 rounded-full backdrop-blur-sm self-start">
           Give Love. Give Care. Give Dignity.
         </p>
 
@@ -24,8 +24,8 @@ export default function HeroSection() {
         </h1>
 
         <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-2xl mb-10 leading-relaxed font-medium">
-          At Golden Years Care Foundation, we believe every senior deserves a life of respect, 
-          comfort, and compassion. We provide care, shelter, and emotional support to elderly 
+          At Golden Years Care Foundation, we believe every senior deserves a life of respect,
+          comfort, and compassion. We provide care, shelter, and emotional support to elderly
           individuals who need it the most.
         </p>
 

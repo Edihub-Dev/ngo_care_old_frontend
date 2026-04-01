@@ -8,7 +8,7 @@ import { ArrowLeftIcon, DevicePhoneMobileIcon, LockClosedIcon, LockOpenIcon } fr
 
 export default function Login() {
   const router = useRouter();
-  
+
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -45,9 +45,9 @@ export default function Login() {
     try {
       const { authApi } = await import('@/lib/api');
       const { AuthManager } = await import('@/lib/auth');
-      
+
       const response = await authApi.login({ mobile, password });
-      
+
       if (response.success && response.data) {
         const { token, user } = response.data as { token: string; user: any };
         AuthManager.getInstance().setToken(token);
@@ -80,7 +80,7 @@ export default function Login() {
       >
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-emerald-600 mb-4">Careon</h1>
+          <h1 className="text-4xl font-bold text-emerald-600 mb-4">Golden Years Care Foundation</h1>
           <h2 className="text-2xl font-semibold text-gray-900 mb-2">Welcome Back</h2>
           <p className="text-gray-500 text-sm">Sign in to continue your care journey.</p>
         </div>
