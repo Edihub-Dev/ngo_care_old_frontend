@@ -144,6 +144,21 @@ export default function Navigation() {
                           </div>
                           <span>Dashboard</span>
                         </Link>
+                        
+                        {(auth.user?.role === 'admin' || auth.user?.role === 'subadmin') && (
+                          <a
+                            href={`${process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3001'}/admin`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={closeProfile}
+                            className="flex items-center space-x-3 px-4 py-3 rounded-2xl text-sm font-bold text-blue-700 hover:bg-blue-50 transition-all group"
+                          >
+                            <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                              <ShieldCheck className="w-4 h-4" />
+                            </div>
+                            <span>Admin Portal</span>
+                          </a>
+                        )}
 
                         <div className="h-px bg-gray-100 mx-4 my-1" />
 

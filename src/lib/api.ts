@@ -1,128 +1,130 @@
+/**
+ * Enhanced API Client for Production
+ * Centralizes all network interactions with standardized error handling and type-safety.
+ */
 import { authFetch } from './auth';
 
-// API Error types
 export interface ApiError {
   message: string;
   code?: string;
-  details?: Record<string, unknown>;
+  status?: number;
 }
 
-export interface ApiResponse<T = unknown> {
+export interface ApiResponse<T = any> {
   success: boolean;
   data?: T;
   message?: string;
   error?: ApiError;
 }
 
-// API Client class for better error handling
-export class ApiClient {
+class ApiClient {
   private static instance: ApiClient;
 
-  static getInstance(): ApiClient {
+  public static getInstance(): ApiClient {
     if (!ApiClient.instance) {
       ApiClient.instance = new ApiClient();
     }
     return ApiClient.instance;
   }
 
-  // Generic request method with error handling
+  /**
+   * Universal fetch wrapper with automatic auth and error normalization
+   */
   private async request<T>(
-    url: string,
+    endpoint: string,
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
     try {
-      const response = await authFetch(url, options);
-
-      // Safely parse JSON — avoid SyntaxError if backend is down and proxy returns HTML
-      const contentType = response.headers.get('content-type') || '';
-      let data: Record<string, unknown> = {};
-      if (contentType.includes('application/json')) {
-        data = await response.json();
-      } else {
-        const text = await response.text();
-        throw new Error(`Server returned non-JSON response (status ${response.status}): ${text.slice(0, 100)}`);
-      }
+      const response = await authFetch(endpoint, options);
+      const isJson = response.headers.get('content-type')?.includes('application/json');
+      const data = isJson ? await response.json() : null;
 
       if (!response.ok) {
-        throw new Error((data.message as string) || `HTTP ${response.status}: ${response.statusText}`);
+        return {
+          success: false,
+          error: {
+            message: data?.message || `HTTP Error ${response.status}: ${response.statusText}`,
+            status: response.status,
+            code: data?.error?.code
+          }
+        };
       }
 
       return {
         success: true,
-        data: (data.data || data) as T,
-        message: data.message as string | undefined
+        data: (data?.data || data) as T,
+        message: data?.message
       };
-    } catch (error) {
-      const isNetworkError = error instanceof TypeError && error.message.includes('fetch');
-      console.error(`[API CLIENT ERROR] ${url}:`, error);
-      
+    } catch (error: any) {
+      console.error(`[API FAIL] ${endpoint}:`, error.message);
       return {
         success: false,
         error: {
-          message: error instanceof Error ? error.message : 'An unexpected error occurred',
-          code: isNetworkError ? 'NETWORK_ERROR' : 'API_ERROR'
+          message: 'Unable to connect to the server. Please check your internet connection.',
+          code: 'NETWORK_DISCONNECTED'
         }
       };
     }
   }
 
-  // GET request
-  async get<T>(url: string): Promise<ApiResponse<T>> {
+  // HTTP Methods
+  public async get<T>(url: string) {
     return this.request<T>(url, { method: 'GET' });
   }
 
-  // POST request
-  async post<T>(url: string, data?: Record<string, unknown>): Promise<ApiResponse<T>> {
+  public async post<T>(url: string, body?: any) {
     return this.request<T>(url, {
       method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
+      body: body ? JSON.stringify(body) : undefined
     });
   }
 
-  // PUT request
-  async put<T>(url: string, data?: Record<string, unknown>): Promise<ApiResponse<T>> {
+  public async put<T>(url: string, body?: any) {
     return this.request<T>(url, {
       method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
+      body: body ? JSON.stringify(body) : undefined
     });
   }
 
-  // DELETE request
-  async delete<T>(url: string): Promise<ApiResponse<T>> {
+  public async patch<T>(url: string, body?: any) {
+    return this.request<T>(url, {
+      method: 'PATCH',
+      body: body ? JSON.stringify(body) : undefined
+    });
+  }
+
+  public async delete<T>(url: string) {
     return this.request<T>(url, { method: 'DELETE' });
   }
 }
 
-// Export singleton instance
 export const apiClient = ApiClient.getInstance();
 
-// Specific API methods
-export const authApi = {
-  login: (credentials: Record<string, string>) => apiClient.post('/api/auth/login', credentials),
-  register: (userData: Record<string, string>) => apiClient.post('/api/auth/register', userData),
+/**
+ * Service Layer (Production Registry)
+ */
+export const AuthService = {
+  login: (creds: any) => apiClient.post('/api/auth/login', creds),
+  register: (data: any) => apiClient.post('/api/auth/register', data),
+  getProfile: () => apiClient.get('/api/auth/profile'),
+  updateProfile: (data: any) => apiClient.put('/api/auth/profile', data),
   forgotPasswordSendOTP: (mobile: string) => apiClient.post('/api/auth/forgot-password', { mobile }),
   forgotPasswordVerifyOTP: (mobile: string, otp: string) => apiClient.post('/api/auth/verify-otp', { mobile, otp }),
   resetPassword: (mobile: string, otp: string, password: string) => 
     apiClient.post('/api/auth/reset-password', { mobile, otp, password }),
 };
 
-export const userApi = {
-  getStats: () => apiClient.get('/api/users/stats'),
-  updateProfile: (data: Record<string, unknown>) => apiClient.put('/api/users/profile', data),
+export const AdminService = {
+  getAnalytics: () => apiClient.get('/api/admin/dashboard'),
+  getUsers: (params?: any) => apiClient.get(`/api/admin/users?${new URLSearchParams(params)}`),
+  getInquiries: () => apiClient.get('/api/admin/inquiries'),
+  updateInquiry: (id: string, status: string) => apiClient.patch(`/api/admin/inquiries/${id}/status`, { status }),
+  getStaff: () => apiClient.get('/api/admin/staff'),
+  addStaff: (data: any) => apiClient.post('/api/admin/staff', data)
 };
 
-export const emergencyApi = {
-  triggerSOS: (location: { lat: number; lng: number }, description?: string) =>
-    apiClient.post('/api/emergency/sos', { location, description }),
-};
-
-export const blogApi = {
-  getAll: (params?: Record<string, unknown>) => {
-    const query = params ? `?${new URLSearchParams(params as any).toString()}` : '';
-    return apiClient.get(`/api/blogs${query}`);
-  },
-  getOne: (id: string) => apiClient.get(`/api/blogs/${id}`),
-  create: (data: Record<string, unknown>) => apiClient.post('/api/blogs', data),
-  update: (id: string, data: Record<string, unknown>) => apiClient.put(`/api/blogs/${id}`, data),
-  delete: (id: string) => apiClient.delete(`/api/blogs/${id}`),
+export const BlogService = {
+  getAll: (q?: string) => apiClient.get(`/api/blogs${q || ''}`),
+  getById: (id: string) => apiClient.get(`/api/blogs/${id}`),
+  create: (data: any) => apiClient.post('/api/blogs', data)
 };

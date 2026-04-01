@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { Toaster } from 'react-hot-toast';
 import Navigation from "./Navigation";
 import Footer from "./Footer";
 import { SettingsProvider } from '@/context/SettingsContext';
@@ -23,6 +24,7 @@ export default function ClientLayout({
 
   return (
     <SettingsProvider>
+      <Toaster position="top-center" reverseOrder={false} />
       {!isNoNavPage && <Navigation />}
       <main>
         {children}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { blogApi } from '@/lib/api';
+import { BlogService } from '@/lib/api';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
@@ -20,7 +20,7 @@ export default function BlogSection() {
   useEffect(() => {
     const fetchLatest = async () => {
       try {
-        const response = await blogApi.getAll({ limit: 3 });
+        const response = await BlogService.getAll('?limit=3');
         if (response.success && response.data) {
           setLatestBlogs(response.data as BlogPost[]);
         }

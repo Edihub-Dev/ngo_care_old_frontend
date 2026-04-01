@@ -78,29 +78,42 @@ export default function Services() {
     }
   };
 
+  const formatServiceName = (name: string) => {
+    return name.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  };
+
   const handleMessageRequest = async (role: string, staffName?: string) => {
     const isAuth = !!localStorage.getItem('token');
     if (!isAuth) {
+      import('react-hot-toast').then(t => t.default.error('Authorization required to initiate care requests'));
       window.location.href = '/login';
       return;
     }
 
-    const confirmed = confirm(`Request a callback/message from ${staffName || `a ${role}`}?`);
+    const { default: toast } = await import('react-hot-toast');
+    const serviceTitle = formatServiceName(role);
+    const professionalTarget = staffName || `an NGO ${serviceTitle} specialist`;
+
+    const confirmed = confirm(`Would you like to request a professional consultation from ${professionalTarget}? \n\nA Golden Years coordinator will contact you shortly to facilitate this.` );
+    
     if (confirmed) {
+      const loadingToast = toast.loading('Initiating care request...');
       try {
         const response = await apiClient.post('/api/services/request', {
-          serviceType: 'custom',
-          customServiceName: `Inquiry: ${role}`,
-          description: `User requested a callback/message regarding ${role} services. ${staffName ? `Specific interest in ${staffName}.` : ''}`,
+          serviceType: role === 'custom' ? 'custom' : role,
+          customServiceName: `Consultation: ${serviceTitle}`,
+          description: `Direct inquiry for ${serviceTitle} services requested from the browse page. ${staffName ? `Specific interest in provider: ${staffName}.` : ''}`,
           urgency: 'medium',
           requestedDate: new Date().toISOString()
         });
 
         if (response.success) {
-          alert('Request sent! Our team will contact you shortly.');
+          toast.success(`Request logged! A ${serviceTitle} coordinator will reach out shortly.`, { id: loadingToast });
+        } else {
+          toast.error(response.error?.message || 'Unable to log request at this moment.', { id: loadingToast });
         }
       } catch (err) {
-        alert('Failed to send request. Please try again later.');
+        toast.error('Network synchronization failed. Please retry.', { id: loadingToast });
       }
     }
   };

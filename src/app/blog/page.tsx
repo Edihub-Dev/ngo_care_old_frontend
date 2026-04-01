@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import { blogApi } from '@/lib/api';
+import { BlogService } from '@/lib/api';
 
 interface BlogPost {
   _id: string;
@@ -22,7 +22,7 @@ export default function BlogPage() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await blogApi.getAll();
+        const response = await BlogService.getAll();
         if (response.success && response.data) {
           setBlogs(response.data as BlogPost[]);
         }

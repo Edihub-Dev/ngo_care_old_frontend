@@ -101,10 +101,11 @@ export default function Dashboard() {
   const triggerSOS = async () => {
     if (sosLoading) return;
 
+    const { default: toast } = await import('react-hot-toast');
+    const loadingToast = toast.loading('Establishing emergency sync...');
+
     try {
       setSosLoading(true);
-
-      // Get user's current location with fallback
       const location = await getLocationWithFallback();
 
       const response = await apiClient.post('/api/emergency/sos', {
@@ -113,14 +114,14 @@ export default function Dashboard() {
       });
 
       if (response.success) {
-        alert('Emergency alert sent successfully! Help is on the way.');
+        toast.success('Emergency alert deployed. Help is on the way.', { id: loadingToast });
       } else {
         throw new Error(response.error?.message || 'Failed to send emergency alert');
       }
     } catch (error) {
       console.error('SOS Error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Error sending emergency alert';
-      alert(`${errorMessage}. Please call emergency services immediately.`);
+      const errorMessage = error instanceof Error ? error.message : 'SOS broadcast failed';
+      toast.error(`${errorMessage}. Call 108 immediately.`, { id: loadingToast, duration: 6000 });
     } finally {
       setSosLoading(false);
     }
@@ -130,19 +131,22 @@ export default function Dashboard() {
     e.preventDefault();
     if (paymentLoading) return;
 
+    const { default: toast } = await import('react-hot-toast');
+    const loadingToast = toast.loading('Securing transaction...');
+
     try {
       setPaymentLoading(true);
       const response = await apiClient.post('/api/users/membership/purchase', { amount: 1100 });
       if (response.success) {
-        alert('Membership activated successfully!');
+        toast.success('Membership activated. Welcome to the Foundation!', { id: loadingToast });
         setPaymentModalOpen(false);
-        fetchUserStats(); // Refresh dashboard
+        fetchUserStats();
       } else {
-        throw new Error(response.error?.message || 'Payment failed');
+        throw new Error(response.error?.message || 'Payment authentication failed');
       }
     } catch (error) {
       console.error('Payment Error:', error);
-      alert(error instanceof Error ? error.message : 'Payment failed');
+      toast.error(error instanceof Error ? error.message : 'Transaction failed', { id: loadingToast });
     } finally {
       setPaymentLoading(false);
     }
@@ -257,7 +261,7 @@ export default function Dashboard() {
                             <span>My Profile</span>
                           </Link>
 
-                          {authState.user?.role === 'admin' && (
+                          {(authState.user?.role === 'admin' || authState.user?.role === 'subadmin') && (
                             <Link href={process.env.NEXT_PUBLIC_ADMIN_URL || '#'} className="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-blue-700 hover:bg-white hover:shadow-sm transition-all group">
                               <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-400 group-hover:text-blue-600 group-hover:bg-blue-50 transition-colors">
                                 <ShieldCheckIcon className="w-4 h-4" />

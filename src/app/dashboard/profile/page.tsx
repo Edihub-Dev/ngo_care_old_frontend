@@ -144,7 +144,7 @@ export default function EditProfile() {
           </Link>
           <h1 className="text-xl font-bold text-gray-900">Edit NGO Profile</h1>
           <div className="flex items-center space-x-2">
-            {authManager.getUser()?.role === 'admin' && (
+            {(authManager.getUser()?.role === 'admin' || authManager.getUser()?.role === 'subadmin') && (
               <a 
                 href={`${process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3001'}/admin`} 
                 target="_blank" 

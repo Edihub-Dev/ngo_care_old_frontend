@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import { blogApi } from '@/lib/api';
+import { BlogService } from '@/lib/api';
 import { ArrowLeft, Clock, User, Facebook, Twitter, Linkedin } from 'lucide-react';
 
 interface Blog {
@@ -26,7 +26,7 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await blogApi.getOne(slug);
+        const response = await BlogService.getById(slug);
         if (response.success && response.data) {
           setBlog(response.data as Blog);
         }
