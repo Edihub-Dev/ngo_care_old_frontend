@@ -81,7 +81,7 @@ export default function Register() {
           <div className="p-6 bg-white/5 rounded-3xl border border-white/10">
             <p className="text-sm font-bold text-[#00b749] mb-4">Already helping thousands</p>
             <div className="flex -space-x-3 mb-3">
-              {[1,2,3,4].map(i => <div key={i} className="h-10 w-10 rounded-full border-4 border-[#064E3B] bg-slate-300" />)}
+              {[1, 2, 3, 4].map(i => <div key={i} className="h-10 w-10 rounded-full border-4 border-[#064E3B] bg-slate-300" />)}
               <div className="h-10 w-10 rounded-full border-4 border-[#064E3B] bg-[#00b749] flex items-center justify-center text-sm font-bold">+2k</div>
             </div>
             <p className="text-white/60 font-medium text-sm">Join thousands of active community members.</p>
@@ -129,7 +129,7 @@ export default function Register() {
                   <label className="block text-sm font-bold text-slate-700">Mobile Number</label>
                   <input
                     type="tel"
-                    placeholder="e.g. 9876543210"
+                    placeholder="+91 0000000000"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                     className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 focus:border-[#00b749] focus:bg-white rounded-xl text-base font-semibold text-slate-900 placeholder:text-slate-400 outline-none transition-all"
