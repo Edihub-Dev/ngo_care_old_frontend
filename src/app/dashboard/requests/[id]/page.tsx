@@ -35,7 +35,12 @@ interface ServiceRequest {
     coordinates?: { lat: number; lng: number }
   };
   assignedStaff?: Array<{
-    staff: { name: string; mobile: string; role: string };
+    staff: { 
+      name: string; 
+      mobile: string; 
+      role: string;
+      documents?: { profileImage?: string };
+    };
     status: string;
   }>;
   timeline: Array<{
@@ -180,8 +185,16 @@ export default function RequestDetails() {
               {request.assignedStaff.map((assignment, idx) => (
                 <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
                   <div className="flex items-center space-x-4">
-                    <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-600">
-                      {assignment.staff.name.charAt(0)}
+                    <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-600 overflow-hidden shrink-0 border border-blue-200">
+                      {assignment.staff.documents?.profileImage ? (
+                        <img 
+                          src={assignment.staff.documents.profileImage} 
+                          alt={assignment.staff.name} 
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <span>{assignment.staff.name.charAt(0)}</span>
+                      )}
                     </div>
                     <div>
                       <p className="font-bold text-gray-900">{assignment.staff.name}</p>

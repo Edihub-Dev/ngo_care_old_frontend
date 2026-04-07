@@ -27,6 +27,9 @@ interface Staff {
   specialization?: string;
   experience: number;
   rating: { average: number; count: number };
+  documents?: {
+    profileImage?: string;
+  };
 }
 
 export default function Services() {
@@ -106,7 +109,9 @@ export default function Services() {
     }
 
     const { default: toast } = await import('react-hot-toast');
-    const serviceTitle = formatServiceName(role);
+    const serviceType = roleToServiceType(role);
+    const serviceData = services.find(s => s.id === serviceType);
+    const serviceTitle = serviceData?.name || formatServiceName(role);
     const professionalTarget = staffName || `an NGO ${serviceTitle} specialist`;
 
     const confirmed = confirm(`Would you like to request a professional consultation from ${professionalTarget}? \n\nA Golden Years coordinator will contact you shortly to facilitate this.` );
@@ -114,12 +119,15 @@ export default function Services() {
     if (confirmed) {
       const loadingToast = toast.loading('Initiating care request...');
       try {
+        const paymentAmount = serviceData?.basePrice || 0;
+
         const response = await apiClient.post('/api/services/request', {
-          serviceType: roleToServiceType(role),
+          serviceType,
           customServiceName: `Consultation: ${serviceTitle}`,
           description: `Direct inquiry for ${serviceTitle} services requested from the browse page. ${staffName ? `Specific interest in provider: ${staffName}.` : ''}`,
           urgency: 'medium',
-          requestedDate: new Date().toISOString()
+          requestedDate: new Date().toISOString(),
+          paymentAmount
         });
 
         if (response.success) {
@@ -228,8 +236,16 @@ export default function Services() {
                               serviceStaff[service.id].map(staff => (
                                 <div key={staff._id} className="border rounded-xl p-4 flex items-center justify-between hover:border-blue-300 transition-colors">
                                   <div className="flex items-center space-x-3">
-                                    <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center border text-blue-600 font-bold">
-                                      {staff.name.charAt(0)}
+                                    <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center border overflow-hidden shrink-0">
+                                      {staff.documents?.profileImage ? (
+                                        <img 
+                                          src={staff.documents.profileImage} 
+                                          alt={staff.name} 
+                                          className="h-full w-full object-cover"
+                                        />
+                                      ) : (
+                                        <span className="text-blue-600 font-bold">{staff.name.charAt(0)}</span>
+                                      )}
                                     </div>
                                     <div>
                                       <p className="font-bold text-gray-900">{staff.name}</p>
@@ -242,14 +258,14 @@ export default function Services() {
                                   </div>
                                   <div className="flex space-x-2">
                                     <button
-                                      onClick={() => handleMessageRequest(staff.role, staff.name)}
+                                      onClick={() => handleMessageRequest(service.id, staff.name)}
                                       className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-blue-100"
                                       title="Send Message"
                                     >
                                       <ChatBubbleLeftRightIcon className="h-5 w-5" />
                                     </button>
                                     <button
-                                      onClick={() => handleMessageRequest(staff.role, staff.name)}
+                                      onClick={() => handleMessageRequest(service.id, staff.name)}
                                       className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors border border-green-100"
                                       title="Call"
                                     >
