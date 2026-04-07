@@ -15,9 +15,43 @@ export default function Navigation() {
   const orgName = settings.orgName;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [auth, setAuth] = useState({ isAuthenticated: false, user: null as any, token: null as any });
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
+
+  // Auto-hide navbar after inactivity
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const handleActivity = () => {
+      setIsVisible(true);
+      if (timeoutId) clearTimeout(timeoutId);
+
+      // Only set hide timeout if no menus are open
+      if (!isMenuOpen && !isProfileOpen) {
+        timeoutId = setTimeout(() => {
+          setIsVisible(false);
+        }, 1000);
+      }
+    };
+
+    // Initial timeout
+    if (!isMenuOpen && !isProfileOpen) {
+      timeoutId = setTimeout(() => {
+        setIsVisible(false);
+      }, 1000);
+    }
+
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('scroll', handleActivity);
+
+    return () => {
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('scroll', handleActivity);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [isMenuOpen, isProfileOpen]);
 
 
   // Close menu when scrolling
@@ -75,7 +109,15 @@ export default function Navigation() {
         />
       )}
 
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-6xl z-50">
+      <motion.div
+        initial={{ y: 0, opacity: 1 }}
+        animate={{
+          y: isVisible || isMenuOpen || isProfileOpen ? 0 : -100,
+          opacity: isVisible || isMenuOpen || isProfileOpen ? 1 : 0
+        }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-6xl z-50"
+      >
         <nav className="bg-white/80 backdrop-blur-xl rounded-full px-6 py-2 border border-black/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.06)] flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center px-3 py-1.5 rounded-xl space-x-2" onClick={closeMenu}>
@@ -144,7 +186,7 @@ export default function Navigation() {
                           </div>
                           <span>Dashboard</span>
                         </Link>
-                        
+
                         {(auth.user?.role === 'admin' || auth.user?.role === 'subadmin') && (
                           <a
                             href={`${process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3001'}/admin`}
@@ -267,7 +309,7 @@ export default function Navigation() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </>
   );
 }
