@@ -252,15 +252,9 @@ export async function authFetch(url: string, options: RequestInit = {}): Promise
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const baseUrl = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/$/, '');
-  let fetchUrl = url;
-
-  if (url.startsWith('/api') && baseUrl) {
-    const cleanUrl = url.startsWith('/') ? url : `/${url}`;
-    fetchUrl = `${baseUrl}${cleanUrl}`;
-  }
-
-  console.log(`[API DEBUG] Requesting: ${fetchUrl} (BaseURL: ${baseUrl || 'not set'})`);
+  // Always use relative URL so Next.js rewrites proxy the request server-side.
+  // Never prepend NEXT_PUBLIC_API_URL on the client — 'localhost' is unreachable from mobile devices.
+  const fetchUrl = url.startsWith('/') ? url : `/${url}`;
 
   try {
     const response = await fetch(fetchUrl, {
@@ -276,7 +270,6 @@ export async function authFetch(url: string, options: RequestInit = {}): Promise
     return response;
   } catch (error) {
     console.error(`[API FETCH ERROR] Failed to fetch ${fetchUrl}:`, error);
-    // Rethrow to allow the caller to handle it, but now we have better logging
     throw error;
   }
 }
