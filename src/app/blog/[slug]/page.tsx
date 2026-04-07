@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { BlogService } from '@/lib/api';
 import { ArrowLeft, Clock, User, Facebook, Twitter, Linkedin } from 'lucide-react';
@@ -58,7 +56,6 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
 
   return (
     <div className="bg-white min-h-screen text-black overflow-x-hidden">
-      <Navigation />
       <div className="pt-24 pb-24">
         <div className="max-w-4xl mx-auto px-6 pt-12">
           <Link href="/blog" className="inline-flex items-center text-black/50 hover:text-black transition-colors mb-12 font-medium">
@@ -106,20 +103,25 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
           <div className="pt-16 mt-16 border-t border-black/5 flex items-center justify-between">
               <span className="text-sm font-bold uppercase tracking-widest text-black/40">Share this article</span>
               <div className="flex gap-4">
-                  <button className="w-12 h-12 bg-gray-100 hover:bg-[#00b749] hover:text-white rounded-full flex items-center justify-center transition-all">
+                  <button onClick={() => {
+                    typeof window !== 'undefined' && window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400');
+                  }} className="w-12 h-12 bg-gray-100 hover:bg-[#00b749] hover:text-white rounded-full flex items-center justify-center transition-all cursor-pointer">
                       <Facebook className="w-5 h-5" />
                   </button>
-                  <button className="w-12 h-12 bg-gray-100 hover:bg-[#00b749] hover:text-white rounded-full flex items-center justify-center transition-all">
+                  <button onClick={() => {
+                    typeof window !== 'undefined' && window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(blog.title)}`, '_blank', 'width=600,height=400');
+                  }} className="w-12 h-12 bg-gray-100 hover:bg-[#00b749] hover:text-white rounded-full flex items-center justify-center transition-all cursor-pointer">
                       <Twitter className="w-5 h-5" />
                   </button>
-                  <button className="w-12 h-12 bg-gray-100 hover:bg-[#00b749] hover:text-white rounded-full flex items-center justify-center transition-all">
+                  <button onClick={() => {
+                    typeof window !== 'undefined' && window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400');
+                  }} className="w-12 h-12 bg-gray-100 hover:bg-[#00b749] hover:text-white rounded-full flex items-center justify-center transition-all cursor-pointer">
                       <Linkedin className="w-5 h-5" />
                   </button>
               </div>
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { BlogService } from '@/lib/api';
 
@@ -37,8 +35,6 @@ export default function BlogPage() {
 
   return (
     <div className="bg-white min-h-screen text-black">
-      <Navigation />
-      
       {/* Full-Screen Hero Section for Blog */}
       <div className="relative h-[100dvh] w-full flex items-center justify-center text-center overflow-hidden mb-16">
         {/* Background Image with Overlay */}
@@ -68,7 +64,7 @@ export default function BlogPage() {
           <div className="flex justify-center py-24">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00b749]"></div>
           </div>
-        ) : (
+        ) : blogs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24">
             {blogs.map((post) => (
               <Link key={post._id} href={`/blog/${post.id || post._id}`} className="group flex flex-col gap-4">
@@ -92,10 +88,18 @@ export default function BlogPage() {
               </Link>
             ))}
           </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-16 pb-32 text-center">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+              <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5L18.5 6H21a2 2 0 012 2v11a2 2 0 01-2 2h-2zm-B 2h8m-10 4h.01M9 16h.01"></path>
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Check Back Soon!</h3>
+            <p className="text-gray-500 max-w-sm">We are currently working on our first journal entries. Stay tuned for updates and stories.</p>
+          </div>
         )}
       </div>
-      <Footer />
     </div>
   );
 }
-
