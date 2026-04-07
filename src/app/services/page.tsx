@@ -82,6 +82,21 @@ export default function Services() {
     return name.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   };
 
+  // Maps staff.role values to valid ServiceRequest enum values
+  const roleToServiceType = (role: string): string => {
+    const map: Record<string, string> = {
+      'doctor': 'doctor_visit',
+      'nurse': 'nurse_care',
+      'physiotherapist': 'physiotherapy',
+      'caretaker': 'old_age_home',
+      'emergency': 'emergency_help',
+    };
+    // If it's already a valid enum value or 'custom', return as-is
+    const validEnums = ['doctor_visit', 'nurse_care', 'physiotherapy', 'old_age_home', 'emergency_help', 'custom'];
+    if (validEnums.includes(role)) return role;
+    return map[role] || 'custom';
+  };
+
   const handleMessageRequest = async (role: string, staffName?: string) => {
     const isAuth = !!localStorage.getItem('token');
     if (!isAuth) {
@@ -100,7 +115,7 @@ export default function Services() {
       const loadingToast = toast.loading('Initiating care request...');
       try {
         const response = await apiClient.post('/api/services/request', {
-          serviceType: role === 'custom' ? 'custom' : role,
+          serviceType: roleToServiceType(role),
           customServiceName: `Consultation: ${serviceTitle}`,
           description: `Direct inquiry for ${serviceTitle} services requested from the browse page. ${staffName ? `Specific interest in provider: ${staffName}.` : ''}`,
           urgency: 'medium',
