@@ -35,22 +35,41 @@ export default function AboutSection() {
           </div>
         </div>
 
-        <div>
-           <div className="flex items-center gap-2 mb-8">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#00b749]" />
-              <span className="text-black/80 font-medium">Our Trusted Supporters</span>
-           </div>
-           
-           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-300">
-              <div className="flex justify-center"><h3 className="text-2xl font-bold italic mix-blend-multiply text-black">lumina</h3></div>
-              <div className="flex justify-center"><h3 className="text-2xl font-black mix-blend-multiply flex items-center gap-1 text-black"><span className="w-6 h-6 rounded-full border-4 border-black inline-block"/> spiral</h3></div>
-              <div className="flex justify-center"><h3 className="text-3xl font-black mix-blend-multiply text-black">LOQO</h3></div>
-              <div className="flex justify-center"><h3 className="text-3xl font-bold italic tracking-tighter mix-blend-multiply text-black">cico</h3></div>
-              <div className="flex justify-center"><h3 className="text-2xl font-bold mix-blend-multiply flex items-center gap-1 text-black"><span className="w-6 h-6 rounded-sm bg-black inline-block rotate-45"/> Logoipsum</h3></div>
-              <div className="flex justify-center"><h3 className="text-2xl font-black tracking-widest mix-blend-multiply text-black">IPSUM</h3></div>
-           </div>
-        </div>
-      </div>
+            <div className="flex items-center gap-2 mb-12">
+               <div className="w-2.5 h-2.5 rounded-full bg-[#00b749]" />
+               <span className="text-black/80 font-medium">Our Trusted Supporters</span>
+            </div>
+         </div>
+
+         {/* Full-width Logo Marquee */}
+         <div className="w-full overflow-hidden py-4 select-none opacity-60 grayscale hover:grayscale-0 transition-all duration-300 border-y border-black/5 bg-white/30">
+            <div className="flex animate-marquee whitespace-nowrap">
+               <div className="flex gap-24 items-center mx-12">
+                  <h3 className="text-2xl font-bold italic mix-blend-multiply text-black">lumina</h3>
+                  <h3 className="text-2xl font-black mix-blend-multiply flex items-center gap-2 text-black"><span className="w-7 h-7 rounded-full border-4 border-black inline-block"/> spiral</h3>
+                  <h3 className="text-3xl font-black mix-blend-multiply text-black">LOQO</h3>
+                  <h3 className="text-3xl font-bold italic tracking-tighter mix-blend-multiply text-black">cico</h3>
+                  <h3 className="text-2xl font-bold mix-blend-multiply flex items-center gap-2 text-black"><span className="w-7 h-7 rounded-sm bg-black inline-block rotate-45"/> Logoipsum</h3>
+                  <h3 className="text-2xl font-black tracking-widest mix-blend-multiply text-black">IPSUM</h3>
+               </div>
+               <div className="flex gap-24 items-center mx-12">
+                  <h3 className="text-2xl font-bold italic mix-blend-multiply text-black">lumina</h3>
+                  <h3 className="text-2xl font-black mix-blend-multiply flex items-center gap-2 text-black"><span className="w-7 h-7 rounded-full border-4 border-black inline-block"/> spiral</h3>
+                  <h3 className="text-3xl font-black mix-blend-multiply text-black">LOQO</h3>
+                  <h3 className="text-3xl font-bold italic tracking-tighter mix-blend-multiply text-black">cico</h3>
+                  <h3 className="text-2xl font-bold mix-blend-multiply flex items-center gap-2 text-black"><span className="w-7 h-7 rounded-sm bg-black inline-block rotate-45"/> Logoipsum</h3>
+                  <h3 className="text-2xl font-black tracking-widest mix-blend-multiply text-black">IPSUM</h3>
+               </div>
+               <div className="flex gap-24 items-center mx-12">
+                  <h3 className="text-2xl font-bold italic mix-blend-multiply text-black">lumina</h3>
+                  <h3 className="text-2xl font-black mix-blend-multiply flex items-center gap-2 text-black"><span className="w-7 h-7 rounded-full border-4 border-black inline-block"/> spiral</h3>
+                  <h3 className="text-3xl font-black mix-blend-multiply text-black">LOQO</h3>
+                  <h3 className="text-3xl font-bold italic tracking-tighter mix-blend-multiply text-black">cico</h3>
+                  <h3 className="text-2xl font-bold mix-blend-multiply flex items-center gap-2 text-black"><span className="w-7 h-7 rounded-sm bg-black inline-block rotate-45"/> Logoipsum</h3>
+                  <h3 className="text-2xl font-black tracking-widest mix-blend-multiply text-black">IPSUM</h3>
+               </div>
+            </div>
+         </div>
     </section>
   );
 }
