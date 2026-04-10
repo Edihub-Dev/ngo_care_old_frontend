@@ -1,8 +1,25 @@
 import AboutSection from '@/components/AboutSection';
 import StatsCounter from '@/components/StatsCounter';
 import { Heart, Shield, Eye, Activity, CheckCircle } from 'lucide-react';
+import FoundersList from '@/components/FoundersList';
 
-export default function AboutPage() {
+export const dynamic = 'force-dynamic';
+
+async function getFounders() {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/founders`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.success ? json.data : [];
+  } catch (error) {
+    console.error('Failed to fetch founders:', error);
+    return [];
+  }
+}
+
+export default async function AboutPage() {
+  const founders = await getFounders();
+
   return (
     <div className="bg-white">
       {/* Full-Screen Hero Section */}
@@ -112,21 +129,7 @@ export default function AboutPage() {
               Our Trust is led and managed by our visionary Founder Trustees.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: "Mr. Surjeet Kumar", role: "Settlor / Founder Trustee", initial: "S" },
-              { name: "Mr. Narendra Singh Teotia", role: "Founder Trustee", initial: "N" },
-              { name: "Mr. Suneel Kumar Bansal", role: "Founder Trustee", initial: "S" }
-            ].map((person, i) => (
-              <div key={i} className="bg-[#f9fafb] p-8 rounded-[2rem] border border-gray-100 text-center flex flex-col items-center">
-                <div className="w-24 h-24 bg-gray-200 rounded-full mb-6 relative overflow-hidden flex items-center justify-center">
-                   <span className="text-3xl text-gray-400 font-bold">{person.initial}</span>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{person.name}</h3>
-                <p className="text-[#00b749] font-medium">{person.role}</p>
-              </div>
-            ))}
-          </div>
+          <FoundersList founders={founders} />
         </div>
       </section>
 
