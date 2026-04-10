@@ -57,7 +57,7 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
   return (
     <div className="bg-white min-h-screen text-black overflow-x-hidden">
       <div className="pt-24 pb-24">
-        <div className="max-w-4xl mx-auto px-6 pt-12">
+        <div className="max-w-4xl mx-auto px-12 pt-8">
           <Link href="/blog" className="inline-flex items-center text-black/50 hover:text-black transition-colors mb-12 font-medium">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Journal
